@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "883001966611",
+    "firebase_url": "https://busymen-f8267-default-rtdb.firebaseio.com",
+    "project_id": "busymen-f8267",
+    "storage_bucket": "busymen-f8267.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883001966611:android:bf2ff104802df57043ffe6",
+        "android_client_info": {
+          "package_name": "com.vysion.busymen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883001966611-rf5g25gb311bcmdar2ah809a8njadrsv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vysion.busymen",
+            "certificate_hash": "5e27d92bc30ca61cf9210862065d0d3374802d70"
+          }
+        },
+        {
+          "client_id": "883001966611-1vi7e89546cvr8er5tinee72irdk0snj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmW-iz96luPXRM-pW1xwJbybtcJ9qIFp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883001966611-1vi7e89546cvr8er5tinee72irdk0snj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
