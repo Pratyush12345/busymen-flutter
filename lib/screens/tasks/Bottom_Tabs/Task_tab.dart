@@ -52,7 +52,9 @@ class _TaskTabState extends State<TaskTab> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Filters(
-              callback: (val) {},
+              callback: (val) {
+                taskProvider.onFilter(val);
+              }, isedit: false,
             ),
           ),
           SizedBox(

@@ -45,7 +45,11 @@ dependencies:
   flutter_local_notifications:
   dart_twitter_api:
   twitter_login: 
-  fluttertoast:  
+  fluttertoast:
+  connectivity:
+  flutter_image_compress:
+  firebase_storage: 
+  image_picker:     
 
 
 

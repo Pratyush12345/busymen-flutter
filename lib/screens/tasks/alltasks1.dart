@@ -1,8 +1,12 @@
 import 'package:busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
+import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:busyman/screens/Twitter/backend/view_models/wrapper_twitter.dart';
 import 'package:busyman/screens/reminder/allreminders.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab.dart';
 import 'package:busyman/screens/tasks/Bottom_Tabs/Task_tab.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/profile_tab.dart';
+import 'package:busyman/services/notification_service.dart';
 import 'package:busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +22,15 @@ class _AllTasksState extends State<AllTasks> {
   int _currentIndex = 0;
   
   @override
+    void initState() {
+      AllTaskVM.instance.updateToken();  
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+         Provider.of<ChangeBottomTabProvider>(context, listen: false).changeBottomTabProvider(selectedIndexLocal: 0);
+        });
+      super.initState();
+    }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<ChangeBottomTabProvider>(
@@ -28,13 +41,25 @@ class _AllTasksState extends State<AllTasks> {
         ),
 
       floatingActionButton:
-      Provider.of<ChangeBottomTabProvider>(context).selectedIndex<2? FloatingActionButton(
+      Provider.of<ChangeBottomTabProvider>(context).selectedIndex!=2? FloatingActionButton(
         onPressed: () {
-          if(Provider.of<ChangeBottomTabProvider>(context, listen: false).selectedIndex==0){
+          int selectedtab = Provider.of<ChangeBottomTabProvider>(context, listen: false).selectedIndex;
+          if(selectedtab == 0){
             Navigator.of(context).pushNamed('/AddTask');
-          }
-          else{
-            Navigator.of(context).pushNamed('/AddReminder');
+          }else if(selectedtab == 1){
+            NotificationService().scheduleNotification(
+                            "title",
+                            "description",
+                            Duration(minutes: 1),
+                          );
+            // NotificationService().showNotification(
+            //                 "title",
+            //                 "description",
+            //                 "101"
+            //               );              
+            //Navigator.of(context).pushNamed('/AddReminder');
+          }else{
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddProfileTab(isEdit: GlobalVariable.isProfileEdit)));
           }
           
         },

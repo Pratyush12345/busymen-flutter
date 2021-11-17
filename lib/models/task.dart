@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 
 enum Status { Ongoing, Pending, Upcoming, Completed }
 
@@ -18,6 +15,7 @@ class Task {
   List<String> reference;
   String location;
   String currentDateTime;
+  List<dynamic> imageUrlList; 
   // bool priority;
   // late Status status;
   // bool completed;
@@ -30,7 +28,8 @@ class Task {
       required this.taskName,
       required this.workingFor,
       required this.currentDateTime,
-      required this.location});
+      required this.location,
+      required this.imageUrlList});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -44,7 +43,8 @@ class Task {
     data['allocatedTo'] = allocatedTo;
     data['location'] = this.location;
     data['currentDateTime'] = this.currentDateTime;
-
+    data['imageUrls'] = this.imageUrlList;
+    
     return data;
   }
 }

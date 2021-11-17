@@ -4,6 +4,7 @@ import 'package:busyman/screens/login/otp_verfication.dart';
 import 'package:busyman/screens/reminder/addreminder.dart';
 import 'package:busyman/screens/reminder/allreminders.dart';
 import 'package:busyman/screens/reminder/editreminder.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
 import 'package:busyman/screens/tasks/addtaskscreen.dart';
 import 'package:busyman/screens/tasks/alltasks.dart';
 import 'package:busyman/screens/tasks/alltasks1.dart';
@@ -35,7 +36,7 @@ class RouteGenerator {
       case '/Reminders':
         return MaterialPageRoute(builder: (_) => const AllReminders());
       case '/AddReminder':
-        return MaterialPageRoute(builder: (_) => const AddReminder());
+        return MaterialPageRoute(builder: (_) => const AddReminder());  
       case '/otp':
         return MaterialPageRoute(builder: (_) => const OtpScreen());
       case '/EditTask':

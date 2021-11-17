@@ -1,3 +1,4 @@
+import 'package:busyman/models/models.dart';
 import 'package:flutter/cupertino.dart';
 
 class FollowerDashboardProvider extends ChangeNotifier {
@@ -28,6 +29,23 @@ class SearchUserProvider extends ChangeNotifier {
  bool boolerrorOccured = false; 
  void renderSearchUser({required bool errorOccured }){
     boolerrorOccured = errorOccured;
+    notifyListeners();
+  }
+}
+
+class UserProfileProvider extends ChangeNotifier {
+ bool boolerrorOccured = false; 
+ UserDetailModel? usermodel;
+ void changeUserProfileProvider({required bool errorOccured,required UserDetailModel modelLocal, }){
+    boolerrorOccured = errorOccured;
+    usermodel = modelLocal;
+    notifyListeners();
+  }
+}
+
+class ChangeAddTaskImageProvider extends ChangeNotifier {
+ 
+ void changeAddTaskImageProvider(){
     notifyListeners();
   }
 }

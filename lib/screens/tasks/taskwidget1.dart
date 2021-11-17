@@ -103,7 +103,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             SizedBox(
               width: 72,
               child: Text(
-                widget.task!.workingFor[0],
+                widget.task!.workingFor.isNotEmpty? widget.task!.workingFor[0] : "No Contact Selected",
                 overflow: TextOverflow.fade,
                 softWrap: false,
                 style: const TextStyle(

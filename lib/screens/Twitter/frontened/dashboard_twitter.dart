@@ -42,7 +42,7 @@ class _Dashboard_TabbarState extends State<Dashboard_Tabbar> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
-                          fontSize: 12.0,
+                          fontSize: 14.0,
                         ),
                       ),
              ),
@@ -52,7 +52,7 @@ class _Dashboard_TabbarState extends State<Dashboard_Tabbar> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
-                          fontSize: 12.0,
+                          fontSize: 14.0,
                         ),
                       ),),
             Tab(child: Text(
@@ -61,7 +61,7 @@ class _Dashboard_TabbarState extends State<Dashboard_Tabbar> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
-                          fontSize: 12.0,
+                          fontSize: 14.0,
                         ),
                       ),),          
            ]),

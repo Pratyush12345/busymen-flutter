@@ -1,8 +1,11 @@
+import 'package:busyman/provider/taskprovider.dart';
 import 'package:busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TopView extends StatelessWidget {
   late App _app;
+  final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     _app = App(context);
@@ -78,7 +81,7 @@ class TopView extends StatelessWidget {
             left: 0.0,
             right: 0.0,
             child: Container(
-              height: _app.appHeight(6),
+              height: _app.appHeight(6.0),
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -96,13 +99,19 @@ class TopView extends StatelessWidget {
                           ),
                     ]),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: TextField(
+                        
                         textAlign: TextAlign.center,
-                        showCursor: false,
-                        onChanged: (val) {}, 
+                        showCursor: true,
+                        onTap: (){
+                          print("Tappeeeeeeed");
+                        },
+                        onChanged: (val) {
+                          print(val);
+                           Provider.of<TaskProvider>(context, listen: false).onSearch(val);
+                        }, 
                         decoration: const InputDecoration(
                             hintText: "Search",
                             suffixIcon: Icon(

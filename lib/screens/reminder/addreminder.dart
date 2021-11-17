@@ -357,16 +357,46 @@ class _AddReminderState extends State<AddReminder> {
                             time: _timecontroller.text,
                             category: category,
                           );
-                          reminderProvider.addReminder(reminder);
-                          DateTime selectedDate =
-                              DateFormat('dd MMM, yyyy').parse(reminder.date);
+                          print("1111111111111111");
+                          print(_timecontroller.text);
+                          print("1111111111111111");
+                          print("reminder-${reminder.time}");
+                          
+                          DateTime selectedDate = DateFormat('dd MMM, yyyy').parse(reminder.date);
+                          String formatTime = "";
+                          List<String> list = reminder.time.replaceAll(" :","").split(" ");
+                          print(list);
+                          if(list[2] == "am"){
+                            String mm = list[1].trim();
+                            if(mm.length==1){
+                              mm = "0${mm}";
+                            }
+                            formatTime = list[0].trim() + ":"+ mm+ ":00.000";
+                          }
+                          else{
+                            String hh = (int.parse(list[0].trim()) + 12).toString();
+                            String mm = list[1].trim();
+                            if(mm.length==1){
+                              mm = "0${mm}";
+                            }
+                            formatTime = hh + ":"+mm + ":00.000";
+                          }
+                          print(formatTime);
+                          print(selectedDate.toString().split(" ")[0] + " "+ formatTime);
+                          selectedDate = DateTime.parse(selectedDate.toString().split(" ")[0] + " "+ formatTime);
+                          print(selectedDate);
                           Duration days =
-                              DateTime.now().difference(selectedDate);
+                              selectedDate.difference( DateTime.now());
+                          print("--------------------");
+                          print("selected $selectedDate"); 
+                          print(days);
+                          print("--------------------");
                           NotificationService().scheduleNotification(
                             reminder.reminderName,
                             reminder.reminderName,
                             days,
-                          );
+                          );                      
+                          reminderProvider.addReminder(reminder);
 
                           Navigator.of(context).pop();
                         }

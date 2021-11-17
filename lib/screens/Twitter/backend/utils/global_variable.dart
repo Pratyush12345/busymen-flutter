@@ -5,4 +5,5 @@ class GlobalVariable {
   static String accessTokenSecret = "";
   static String twittedUid = "";
   static TwitterApi? twitterApi;
+  static bool isProfileEdit = false;
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:busyman/models/reminder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -53,7 +54,7 @@ class Reminderprovider extends ChangeNotifier {
     try {
       final ref = await FirebaseDatabase.instance
           .reference()
-          .child('Users/641Wbl9iOLe09ecDYKG7qUKtfz92/Reminders/');
+          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/');
       final ref2 = await ref.push().get();
       ref.child(ref2.key.toString()).set(reminder.toJson());
       reminder.id = ref2.key!;
@@ -67,7 +68,7 @@ class Reminderprovider extends ChangeNotifier {
     try {
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/641Wbl9iOLe09ecDYKG7qUKtfz92/Reminders/$id')
+          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/$id')
           .remove();
       _reminders.removeWhere((element) => element.id == id);
       notifyListeners();
@@ -80,7 +81,7 @@ class Reminderprovider extends ChangeNotifier {
     try {
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/641Wbl9iOLe09ecDYKG7qUKtfz92/Reminders/${reminder.id}')
+          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/${reminder.id}')
           .update(reminder.toJson());
       int index = _reminders.indexWhere((element) => element.id == reminder.id);
       _reminders[index] = reminder;
@@ -94,7 +95,7 @@ class Reminderprovider extends ChangeNotifier {
     if (_reminders.isEmpty) {
       final tasks = await FirebaseDatabase.instance
           .reference()
-          .child('Users/641Wbl9iOLe09ecDYKG7qUKtfz92/Reminders/')
+          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/')
           .get();
       print(tasks.value);
       final string = jsonEncode(tasks.value);

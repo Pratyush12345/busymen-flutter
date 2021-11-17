@@ -2,6 +2,7 @@ import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dar
 import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:busyman/screens/Twitter/backend/utils/models.dart';
 import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -72,6 +73,7 @@ void _scrollListener() {
                                 )
                                 ),
                               trailing: Checkbox(
+                                activeColor: blueColour,
                                 value: _twitterUserModel.isChecked ,
                                 onChanged: (val){
                                   _twitterUserModel.isChecked = val!;

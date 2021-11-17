@@ -1,7 +1,11 @@
 import 'package:busyman/models/task.dart';
 import 'package:busyman/provider/taskprovider.dart';
+import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
 import 'package:busyman/screens/tasks/contacttile.dart';
 import 'package:busyman/screens/tasks/taskfilters.dart';
+import 'package:busyman/services/appColor.dart';
 import 'package:busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -33,6 +37,7 @@ class _AddTaskState extends State<AddTask> {
   bool allocatedto = false;
   DateFormat formatter = DateFormat('dd MMM, yyyy');
   List<Contact>? _contacts;
+  bool isLoading = false;
   bool _permissionDenied = false;
 
   Future _fetchContacts() async {
@@ -176,7 +181,11 @@ class _AddTaskState extends State<AddTask> {
 
     super.dispose();
   }
-
+  @override
+    void initState() {
+      AllTaskVM.instance.init();
+      super.initState();
+    }
   @override
   Widget build(BuildContext context) {
     _app = App(context);
@@ -223,6 +232,11 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   TextFormField(
                     controller: _descriptioncontroller,
+                    validator: (str) {
+                      if (str == null || str.isEmpty) {
+                        return 'This field can not be empty';
+                      }
+                    },
                     keyboardType: TextInputType.name,
                     decoration:
                         const InputDecoration(labelText: 'Description'),
@@ -405,12 +419,12 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   Filters(callback: (val) {
                     category = val;
-                  }),
+                  }, isedit: false,),
                   SizedBox(
                     height: _app.appVerticalPadding(2.5),
                   ),
                   const Text(
-                    'Working for',
+                    'Work',
                     style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -463,7 +477,7 @@ class _AddTaskState extends State<AddTask> {
                     height: _app.appVerticalPadding(2.0),
                   ),
                   const Text(
-                    'Allocate people',
+                    'Allocation',
                     style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -569,12 +583,84 @@ class _AddTaskState extends State<AddTask> {
                   SizedBox(
                     height: _app.appVerticalPadding(2.0),
                   ),
-
+                  
+                  Consumer<ChangeAddTaskImageProvider>(
+                    builder: (context, model, child){
+                    if(AllTaskVM.instance.listOfImageFiles.isNotEmpty)     
+                    
+                    return Row(children: AllTaskVM.instance.listOfImageFiles.map((e) =>
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BeforeImageLoading(
+                          imageurl: e.file,
+                          pos: e.position,
+                          isEdit: false,
+                        )));
+                      },
+                      child: Container(
+                        height: 100.0,
+                        width: 100.0,
+                        color: greyColour,
+                        child: Image.file(e.file),  
+                      ),
+                    ),
+                     
+                    ).toList() ,);
+                    else
+                    return SizedBox();
+                    }
+                  ), 
+                  
+                  SizedBox(
+                    height: _app.appVerticalPadding(2.0),
+                  ),
+                  const Text(
+                    'Task Photos',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff959595)),
+                  ),
+                  TextButton(
+                      onPressed: () async {
+                        if(AllTaskVM.instance.listOfImageFiles.length <3)
+                        AllTaskVM.instance.pickImage(context, false);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.upload_file, color: Colors.black,),
+                            SizedBox(width: 10.0,),
+                            const Text("Choose Task Photos",
+                                style: TextStyle(         
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: greyColour,
+                            borderRadius: BorderRadius.circular(15)),
+                      )),
+                  
+                  SizedBox(
+                    height: _app.appVerticalPadding(3.0),
+                  ),
+                  isLoading
+                      ? const Center(child: const CircularProgressIndicator()):
+                          
                   TextButton(
                       onPressed: () async {
                         final postion = await _determinePosition();
                         print(postion.provider);
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                                isLoading = true;
+                              });
                           Task task = Task(
                               id: UniqueKey().toString(),
                               taskName: _namecontroller.text,
@@ -583,13 +669,18 @@ class _AddTaskState extends State<AddTask> {
                               allocatedTo: allocatedTo,
                               category: category,
                               reference: reference,
+                              imageUrlList: [],
                               location: postion.latitude.toString() +
                                   ',' +
                                   postion.longitude.toString(),
                               currentDateTime: DateTime.now().toString());
-                          taskProvider.addNewTask(task);
+                          taskProvider.addNewTask(task).whenComplete(() {
+                                setState(() {
+                                  isLoading = false;
+                                });
 
                           Navigator.of(context).pop();
+                        });
                         }
                       },
                       child: Container(

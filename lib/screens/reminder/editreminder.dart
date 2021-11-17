@@ -2,13 +2,14 @@ import 'package:busyman/models/reminder.dart';
 import 'package:busyman/provider/reminderprovider.dart';
 import 'package:busyman/screens/tasks/taskfilters.dart';
 import 'package:busyman/services/sizeconfig.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EditReminder extends StatefulWidget {
   final String id;
-  EditReminder(this.id);
+  EditReminder(this.id,);
 
   @override
   _EditReminderState createState() => _EditReminderState();
@@ -25,6 +26,7 @@ class _EditReminderState extends State<EditReminder> {
   bool initial = true;
   bool isLoading = false;
   DateFormat formatter = DateFormat('dd MMM, yyyy');
+   
   @override
   void dispose() {
     // TODO: implement dispose
@@ -44,6 +46,18 @@ class _EditReminderState extends State<EditReminder> {
       _datecontroller.text = reminder.date;
       _timecontroller.text = reminder.time;
       category = reminder.category;
+      if(category == "Events"){
+        categorySelected[0] =  true;
+      }
+      else if(category == "Invitaion"){
+        categorySelected[1] =  true;
+      }
+      if(category == "Personal"){
+        categorySelected[2] =  true;
+      }
+      if(category == "Birthday"){
+        categorySelected[3] =  true;
+      }
     }
     initial = false;
     // TODO: implement didChangeDependencies

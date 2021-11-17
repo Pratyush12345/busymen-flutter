@@ -11,9 +11,12 @@ class AppConstant {
 
   static Widget noDataFound(String text){
     return Center(
-      child: Text(text, 
-      style: TextStyle(color: Colors.black,
-      fontSize: 26.0),),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(text, 
+        style: TextStyle(color: Colors.black,
+        fontSize: 22.0),),
+      ),
     );
 
   }

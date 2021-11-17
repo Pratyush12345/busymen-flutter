@@ -1,9 +1,11 @@
 import 'package:busyman/provider/loginprovider.dart';
 import 'package:busyman/provider/reminderprovider.dart';
 import 'package:busyman/provider/taskprovider.dart';
+import 'package:busyman/screens/No_internet/connectivity_wrapper.dart';
 import 'package:busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
 import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:busyman/screens/login/loginscreen.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab.dart';
 import 'package:busyman/screens/tasks/alltasks.dart';
 import 'package:busyman/screens/wrapper.dart';
 import 'package:busyman/services/notification_service.dart';
@@ -33,12 +35,14 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (ctx) => TaskProvider()),
+           ChangeNotifierProvider(create: (ctx) => ChangeAddTaskImageProvider()),
           ChangeNotifierProvider(create: (ctx) => Reminderprovider()),
           ChangeNotifierProvider(create: (ctx) => FollowingDashboardProvider()),
           ChangeNotifierProvider(create: (ctx) => FollowerDashboardProvider()),
           ChangeNotifierProvider(create: (ctx) => AllSelectedDashboardProvider()),
           ChangeNotifierProvider(create: (ctx) => SearchUserProvider()),
           ChangeNotifierProvider(create: (ctx) => ChangeBottomTabProvider()),
+          ChangeNotifierProvider(create: (ctx) => UserProfileProvider()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -46,7 +50,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Wrapper(),
+          home: ConnectivityWrapper(),
           initialRoute: '/',
           onGenerateRoute: RouteGenerator.generateRoute,
         ),

@@ -2,14 +2,32 @@ import 'package:flutter/material.dart';
 
 class Filters extends StatefulWidget {
   final Function(String val)? callback;
-  Filters({this.callback});
+  final bool? isedit;
+  final String? category;
+  Filters({this.callback, required this.isedit, this.category});
   @override
   State<Filters> createState() => _FiltersState();
 }
 
 class _FiltersState extends State<Filters> {
   List<bool> selectedFilters = [false, false, false, false, false];
+  @override
+    void initState() {
+      if(widget.isedit!){
+        if(widget.category == "Political")
+        selectedFilters[0] = true;
+        else if(widget.category == "Ward")
+        selectedFilters[1] = true;
+        else if(widget.category == "Work")
+        selectedFilters[2] = true;
+        else if(widget.category == "Business")
+        selectedFilters[3] = true;
+        else if(widget.category == "Extra")
+        selectedFilters[4] = true;
 
+      }
+      super.initState();
+    }
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +44,10 @@ class _FiltersState extends State<Filters> {
           checkmarkColor: Colors.white,
           onSelected: (bool selected) {
             setState(() {
+              if(selected)
               widget.callback!('Political');
+              else
+              widget.callback!('');
 
               selectedFilters[0] = selected;
               selectedFilters[1] = false;
@@ -48,8 +69,12 @@ class _FiltersState extends State<Filters> {
           checkmarkColor: Colors.white,
           onSelected: (bool selected) {
             setState(() {
+              
+              if(selected)
               widget.callback!('Ward');
-
+              else
+              widget.callback!('');
+              
               selectedFilters[0] = false;
               selectedFilters[1] = selected;
               selectedFilters[2] = false;
@@ -70,8 +95,12 @@ class _FiltersState extends State<Filters> {
           checkmarkColor: Colors.white,
           onSelected: (bool selected) {
             setState(() {
+              
+              if(selected)
               widget.callback!('Work');
-
+              else
+              widget.callback!('');
+              
               selectedFilters[0] = false;
               selectedFilters[1] = false;
               selectedFilters[2] = selected;
@@ -92,8 +121,12 @@ class _FiltersState extends State<Filters> {
           checkmarkColor: Colors.white,
           onSelected: (bool selected) {
             setState(() {
+              
+              if(selected)
               widget.callback!('Business');
-
+              else
+              widget.callback!('');
+              
               selectedFilters[0] = false;
               selectedFilters[1] = false;
               selectedFilters[2] = false;
@@ -114,8 +147,12 @@ class _FiltersState extends State<Filters> {
           checkmarkColor: Colors.white,
           onSelected: (bool selected) {
             setState(() {
+              
+              if(selected)
               widget.callback!('Extra');
-
+              else
+              widget.callback!('');
+              
               selectedFilters[0] = false;
               selectedFilters[1] = false;
               selectedFilters[2] = false;

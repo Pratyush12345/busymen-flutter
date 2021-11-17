@@ -53,7 +53,7 @@ class DashboardVM{
 
   fetchUserDetail() async{
    try{
-        DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").once();
+        DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").once();
         print(snapshot.value);
         GlobalVariable.accessToken = snapshot.value["AcessToken"].toString();
         GlobalVariable.accessTokenSecret = snapshot.value["AcessTokenSecret"].toString();
@@ -74,6 +74,9 @@ class DashboardVM{
   try {
     print("Fetching follower data");
     PaginatedUsers paginatedUsers;
+    if(GlobalVariable.accessToken == ""){
+      await Future.delayed(Duration(seconds: 3));
+    }
     if(isAgain){
      paginatedUsers = await GlobalVariable.twitterApi!.userService.followersList(count: 10,
      cursor: followerNextCursorId!);
@@ -133,7 +136,7 @@ Future<void> fetchAllPeopleData({required bool isAgain}) async {
   print("Fetching AllPeople data");
   try {
 
-    DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}/AddedAccountIds").once();
+    DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}/AddedAccountIds").once();
     
     listOfAccountAddedId = snapshot.value??"";
     List<dynamic> _userDetail = await getUserListDetailId(listOfAccountAddedId! +listOfRetweetId!);
@@ -169,7 +172,7 @@ Future<void> fetchAllPeopleData({required bool isAgain}) async {
 
 saveRetweetId() async{
   try{
-  await FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
+  await FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
   "RetweetId" : listOfRetweetId,
  });
  fToast?.showToast(
@@ -211,13 +214,13 @@ deleteUser(String id_str, bool ischecked) async{
   if(ischecked){
   listOfRetweetId = listOfRetweetId!.replaceAll(",$id_str","");  
   } 
-  FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
+  FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
   "AddedAccountIds" : listOfAccountAddedId,});
   if(ischecked)
   allselectedlist!.forEach((element) { 
     if(element.user.idStr!.trim() == id_str.trim()){
       
-      FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
+      FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
       "RetweetId" : listOfRetweetId,});
     }
   });
@@ -251,7 +254,7 @@ getUserId(String username) async{
       ..description = _map["description"]
       ..profileImageUrlHttps = _map["profile_image_url_https"]
       ));
-  FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
+  FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
   "RetweetId" : listOfAccountAddedId,});
   
   Provider.of<AllSelectedDashboardProvider>(context!, listen: false).renderAgainAllSelected(errorOccured: false);
@@ -328,7 +331,7 @@ selectFromSearchUsers(TwitterUsersModel model){
    {
      listOfAccountAddedId = listOfAccountAddedId! + "," + "${model.user.idStr}";
   
-     FirebaseDatabase.instance.reference().child("Users/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
+     FirebaseDatabase.instance.reference().child("TwitterUsers/${fbAuth.FirebaseAuth.instance.currentUser!.uid}").update({
      "AddedAccountIds" : listOfAccountAddedId,});
    }                             
   Provider.of<AllSelectedDashboardProvider>(context!, listen: false).renderAgainAllSelected(errorOccured: false);

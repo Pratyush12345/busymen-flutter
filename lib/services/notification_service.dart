@@ -14,9 +14,9 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> init() async {
+  Future<void> init() async { 
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('clock');
+        AndroidInitializationSettings('@mipmap/launcher_icon');
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -34,13 +34,22 @@ class NotificationService {
   
   int count = 0;
   tz.TZDateTime _nextInstanceOfTenAM(Duration days) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    print(tz.local);
+    tz.initializeTimeZones();
+    var ist = tz.getLocation('Asia/Colombo');
+    print(ist);
+    final tz.TZDateTime now = tz.TZDateTime.now(ist);
     tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 10);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour, now.minute );
     if (scheduledDate.isBefore(now)) {
       print('yes');
       scheduledDate = scheduledDate.add(days);
+      print("1111222");
     }
+    scheduledDate = scheduledDate.add(days);
+    print(scheduledDate.timeZone);
+    print(scheduledDate.day);
+    print(scheduledDate);
     return scheduledDate;
   }
 
@@ -50,19 +59,33 @@ class NotificationService {
     Duration days,
   ) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        count,
+        0,
         title,
         description,
         _nextInstanceOfTenAM(days),
-        const NotificationDetails(
+         NotificationDetails(
             android: AndroidNotificationDetails(
-          'Busyman1234',
-          'Busyman',
+          'title101',
+          'description101',
           'Busyman Reminders'
         )),
-        androidAllowWhileIdle: true,
+        androidAllowWhileIdle:false,
         uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+            UILocalNotificationDateInterpretation.wallClockTime);
     count++;
+  }
+
+   showNotification(String title, String body, String id) async {
+    var android = AndroidNotificationDetails(
+        title + id,
+        title + id,
+        body,
+        importance: Importance.high);
+    var iOS = IOSNotificationDetails();
+    var platform = NotificationDetails(android: android, iOS: iOS);
+
+    flutterLocalNotificationsPlugin.show(
+        int.parse(id), title, body, platform,
+        payload: "FLUTTER_NOTIFICATION_CLICK");
   }
 }

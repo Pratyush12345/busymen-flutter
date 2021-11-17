@@ -30,7 +30,7 @@ class _TwitterSignInState extends State<TwitterSignIn> {
   print(GlobalVariable.accessTokenSecret);
   print(GlobalVariable.twittedUid);
   try{
-  await FirebaseDatabase.instance.reference().child("Users/${FirebaseAuth.instance.currentUser!.uid}").update({
+  await FirebaseDatabase.instance.reference().child("TwitterUsers/${FirebaseAuth.instance.currentUser!.uid}").update({
   "AcessToken" : GlobalVariable.accessToken,
   "AcessTokenSecret" : GlobalVariable.accessTokenSecret,
   "TwitterId" : GlobalVariable.twittedUid,

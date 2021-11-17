@@ -17,11 +17,16 @@ class Auth {
   }
 
   Stream<FBUser> get appuser {
-    return _firebaseAuth.authStateChanges().map((user) =>FBUser(uid: user!.uid));
+    return _firebaseAuth.authStateChanges().map((user) =>user==null?FBUser(uid: ""): FBUser(uid: user.uid));
   }
 
-  logout(){
-    _firebaseAuth.signOut();
+    Future<void> signOut() async {
+    try {
+      return await _firebaseAuth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 }
 

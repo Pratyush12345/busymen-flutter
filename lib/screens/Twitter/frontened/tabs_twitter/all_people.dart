@@ -2,6 +2,7 @@ import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dar
 import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:busyman/screens/Twitter/backend/utils/models.dart';
 import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -123,6 +124,7 @@ void showDeletePeopleDialog(String id_str, bool ischecked){
   
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: blueColour,
         onPressed: (){
           showAddPeopleDialog();
         },
@@ -164,6 +166,7 @@ void showDeletePeopleDialog(String id_str, bool ischecked){
                                     )
                                     ),
                                   trailing: Checkbox(
+                                    activeColor: blueColour,
                                     value: _twitterUserModel.isChecked ,
                                     onChanged: (val){
                                       _twitterUserModel.isChecked = val!;

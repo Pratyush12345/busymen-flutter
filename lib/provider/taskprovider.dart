@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:busyman/models/task.dart';
+import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class TaskProvider extends ChangeNotifier {
   List<Task> _tasks = [];
+  List<Task> _tasksdup = [];
   List<Task> get tasks {
     return [..._tasks];
   }
@@ -39,10 +41,13 @@ class TaskProvider extends ChangeNotifier {
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/');
       final ref2 = await ref.push().get();
+      task.imageUrlList = await AllTaskVM.instance.getUrlListOfImage(ref2.key.toString());
       ref.child(ref2.key.toString()).set(task.toJson());
       task.id = ref2.key!;
       // statusUpdate(task);
       _tasks.add(task);
+      _tasksdup.clear();
+      _tasksdup = List.from(_tasks);
       notifyListeners();
     } catch (e) {
       print('error occured in line 15 task provider');
@@ -55,7 +60,10 @@ class TaskProvider extends ChangeNotifier {
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/$id')
           .remove();
+      AllTaskVM.instance.deleteAllImageFirebaseStorage(id);  
       _tasks.removeWhere((element) => element.id == id);
+      _tasksdup.clear();
+      _tasksdup = List.from(_tasks);
       notifyListeners();
     } catch (e) {
       print(e.toString());
@@ -63,13 +71,18 @@ class TaskProvider extends ChangeNotifier {
   }
 
   Future<void> editTask(Task task) async {
+    print("Edit Task");
     try {
+      task.imageUrlList = await (AllTaskVM.instance.getUpdatedUrlListOfImage(task.id));
       await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/${task.id}')
           .update(task.toJson());
       int index = _tasks.indexWhere((element) => element.id == task.id);
       _tasks[index] = task;
+      _tasks.sort((a,b)=> DateTime.parse(b.currentDateTime).compareTo(DateTime.parse(a.currentDateTime)));
+      _tasksdup.clear();
+      _tasksdup = List.from(_tasks);
       notifyListeners();
     } catch (e) {
       print(e.toString());
@@ -91,11 +104,15 @@ class TaskProvider extends ChangeNotifier {
       final tasks = await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/')
-          .get();
+          .once();
       print(tasks.value);
       final string = jsonEncode(tasks.value);
       final Map<String, dynamic> data = jsonDecode(string);
       for (int i = 0; i < data.keys.length; i++) {
+        print("${data.values.toList()[i]['imageUrls']}");
+        
+        List<dynamic> imageUrls = data.values.toList()[i]['imageUrls']??[]; 
+        print(imageUrls);
         Task task = Task(
           id: data.keys.toList()[i],
           taskName: data.values.toList()[i]['taskName'],
@@ -118,6 +135,7 @@ class TaskProvider extends ChangeNotifier {
                   .map<String>((e) => e.toString())
                   .toList()
               : [],
+          imageUrlList: imageUrls,       
           category: data.values.toList()[i]['category']??"",
           location: data.values.toList()[i]['location']??"",
           currentDateTime: data.values.toList()[i]['currentDateTime']??"",
@@ -126,7 +144,39 @@ class TaskProvider extends ChangeNotifier {
 
         _tasks.add(task);
       }
+      _tasks.sort((a,b)=> DateTime.parse(b.currentDateTime).compareTo(DateTime.parse(a.currentDateTime)));
+      _tasksdup.clear();
+      _tasksdup = List.from(_tasks);
     }
+  }
+
+  onSearch(String val){
+   if(val.isNotEmpty){
+    List<Task> _searchedList = [];
+
+    _searchedList = _tasksdup.where((element) => element.taskName.toLowerCase().contains(val.toLowerCase()) ||
+    element.description.toLowerCase().contains(val.toLowerCase())).toList();
+
+    _tasks.clear();
+    _tasks = List.from(_searchedList);
+   }else{
+    _tasks.clear();
+    _tasks = List.from(_tasksdup);
+   }
+   notifyListeners();
+  }
+
+  onFilter(String val){
+   if(val.isNotEmpty){
+    List<Task> _searchedList = [];
+    _searchedList = _tasksdup.where((element) => element.category.contains(val)).toList();
+    _tasks.clear();
+    _tasks = List.from(_searchedList);
+   }else{
+    _tasks.clear();
+    _tasks = List.from(_tasksdup);
+   }
+   notifyListeners();
   }
 
   int daysBetween(DateTime from, DateTime to) {
@@ -138,7 +188,7 @@ class TaskProvider extends ChangeNotifier {
   Task findTask(String id) {
     return _tasks.firstWhere((element) => element.id == id);
   }
-
+  
   // List<Task> findListByStatus(Status status) {
   //   List<Task> list = [];
   //   if (status == Status.Ongoing) {
