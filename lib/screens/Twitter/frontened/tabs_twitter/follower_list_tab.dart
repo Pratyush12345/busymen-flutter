@@ -1,8 +1,8 @@
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:busyman/screens/Twitter/backend/utils/models.dart';
-import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
-import 'package:busyman/services/appColor.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/models.dart';
+import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

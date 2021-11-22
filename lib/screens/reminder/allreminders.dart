@@ -1,6 +1,6 @@
-import 'package:busyman/provider/reminderprovider.dart';
-import 'package:busyman/screens/reminder/reminderwidget.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/provider/reminderprovider.dart';
+import 'package:Busyman/screens/reminder/reminderwidget.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -55,14 +55,15 @@ class _AllRemindersState extends State<AllReminders>
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final reminders = Provider.of<Reminderprovider>(context);
+    print("remider updateddddd");
+    print("2 ${reminders.dateViseReminders[2]!.length}");
     _app = App(context);
     return Scaffold(
       body: Column(
@@ -319,6 +320,7 @@ class _AllRemindersState extends State<AllReminders>
                                 children: [
                                   ReminderWidget(
                                     id: e.id,
+                                    notifcationId: e.notificationId,
                                     date: currentDay,
                                   ),
                                   const SizedBox(
@@ -335,7 +337,7 @@ class _AllRemindersState extends State<AllReminders>
                           .map((e) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  ReminderWidget(id: e.id, date: currentDay),
+                                  ReminderWidget(id: e.id,notifcationId: e.notificationId, date: currentDay),
                                   const SizedBox(
                                     height: 12,
                                   ),
@@ -350,7 +352,7 @@ class _AllRemindersState extends State<AllReminders>
                           .map((e) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  ReminderWidget(id: e.id, date: currentDay),
+                                  ReminderWidget(id: e.id,notifcationId: e.notificationId, date: currentDay),
                                   const SizedBox(
                                     height: 12,
                                   ),
@@ -365,7 +367,7 @@ class _AllRemindersState extends State<AllReminders>
                           .map((e) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  ReminderWidget(id: e.id, date: currentDay),
+                                  ReminderWidget(id: e.id, notifcationId: e.notificationId, date: currentDay),
                                   const SizedBox(
                                     height: 12,
                                   ),
@@ -380,7 +382,7 @@ class _AllRemindersState extends State<AllReminders>
                           .map((e) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  ReminderWidget(id: e.id, date: currentDay),
+                                  ReminderWidget(id: e.id, notifcationId: e.notificationId, date: currentDay),
                                   const SizedBox(
                                     height: 12,
                                   ),
@@ -395,7 +397,7 @@ class _AllRemindersState extends State<AllReminders>
                           .map((e) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  ReminderWidget(id: e.id, date: currentDay),
+                                  ReminderWidget(id: e.id, notifcationId: e.notificationId, date: currentDay),
                                   const SizedBox(
                                     height: 12,
                                   ),

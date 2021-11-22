@@ -1,8 +1,8 @@
-import 'package:busyman/models/reminder.dart';
-import 'package:busyman/provider/reminderprovider.dart';
-import 'package:busyman/screens/tasks/taskfilters.dart';
-import 'package:busyman/services/sizeconfig.dart';
-import 'package:flutter/foundation.dart';
+
+import 'package:Busyman/models/reminder.dart';
+import 'package:Busyman/provider/reminderprovider.dart';
+import 'package:Busyman/services/notification_service.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +25,7 @@ class _EditReminderState extends State<EditReminder> {
   List<bool> categorySelected = [false, false, false, false];
   bool initial = true;
   bool isLoading = false;
+  int? _notificationId;
   DateFormat formatter = DateFormat('dd MMM, yyyy');
    
   @override
@@ -42,6 +43,7 @@ class _EditReminderState extends State<EditReminder> {
     if (initial) {
       final reminder = Provider.of<Reminderprovider>(context, listen: false)
           .findReminder(widget.id);
+      _notificationId = reminder.notificationId;   
       _namecontroller.text = reminder.reminderName;
       _datecontroller.text = reminder.date;
       _timecontroller.text = reminder.time;
@@ -391,6 +393,49 @@ class _EditReminderState extends State<EditReminder> {
                                 date: _datecontroller.text,
                                 time: _timecontroller.text,
                                 category: category,
+                                notificationId: _notificationId!
+                              );
+                              
+                          print("1111111111111111");
+                          print(_timecontroller.text);
+                          print("1111111111111111");
+                          print("reminder-${reminder.time}");
+                          
+                          DateTime selectedDate = DateFormat('dd MMM, yyyy').parse(reminder.date);
+                          String formatTime = "";
+                          List<String> list = reminder.time.replaceAll(" :","").split(" ");
+                          print(list);
+                          if(list[2] == "am"){
+                            String mm = list[1].trim();
+                            if(mm.length==1){
+                              mm = "0${mm}";
+                            }
+                            formatTime = list[0].trim() + ":"+ mm+ ":00.000";
+                          }
+                          else{
+                            String hh = (int.parse(list[0].trim()) + 12).toString();
+                            String mm = list[1].trim();
+                            if(mm.length==1){
+                              mm = "0${mm}";
+                            }
+                            formatTime = hh + ":"+mm + ":00.000";
+                          }
+                          print(formatTime);
+                          print(selectedDate.toString().split(" ")[0] + " "+ formatTime);
+                          selectedDate = DateTime.parse(selectedDate.toString().split(" ")[0] + " "+ formatTime);
+                          print(selectedDate);
+                          Duration days =
+                              selectedDate.difference( DateTime.now());
+                          print("--------------------");
+                          print("selected $selectedDate"); 
+                          print(days);
+                          print("--------------------");
+                              NotificationService().deleteNotification(_notificationId!); 
+                              NotificationService().scheduleNotification(
+                                reminder.reminderName,
+                                reminder.reminderName,
+                                days,
+                                _notificationId!
                               );
                               reminderProvider
                                   .editReminder(reminder)

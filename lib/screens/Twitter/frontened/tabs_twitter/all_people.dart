@@ -1,8 +1,8 @@
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:busyman/screens/Twitter/backend/utils/models.dart';
-import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
-import 'package:busyman/services/appColor.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/models.dart';
+import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,85 +39,99 @@ class _AllSelectedPeopleTabState extends State<AllSelectedPeopleTab> {
     //DashboardVM.instance.fetchFollowingData(isAgain: true);
   }
 }
-void showDeletePeopleDialog(String id_str, bool ischecked){
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        // backgroundColor: const Color(0xff297687),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                DashboardVM.instance.deleteUser(id_str, ischecked);
-                Navigator.of(ctx).pop();
-                // Navigator.of(context).pop();
-              },
-              child: const Text('Ok'))
-        ],
-        content: Container(
-          height: 200.0,
-          width: 500.0,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
 
-              // color: Colors.white,
-              borderRadius: BorderRadius.circular(15)),
-          child: Column(children: [
-            Text("Are You sure, You want to delete this user?",
-            style: TextStyle(fontSize: 18.0, color: Colors.black),),
-          ],),
-        ),
-      ),
-    );
+  void showDeletePeopleDialog(String id_str, bool ischecked){
+     showDialog(
+                context: context,
+                builder: (ctx) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Are You sure, You want to delete this user?',
+                      style: TextStyle(
+                          color: Color(0xff2E2E2E),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                           DashboardVM.instance.deleteUser(id_str, ischecked);
+                          Navigator.of(ctx).pop();
+                 // Navigator.of(context).pop();
+              
+                            },
+                          child: Text('Yes')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No'))
+                    ],
+                  );
+                });
   }
-
   void showAddPeopleDialog(){
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        // backgroundColor: const Color(0xff297687),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                DashboardVM.instance.getUserId(_namecontroller.text);
-                Navigator.of(ctx).pop();
-                setState(() {});
-                // Navigator.of(context).pop();
-              },
-              child: const Text('Ok'))
-        ],
-        content: Container(
-          height: 200.0,
+    final _reminderformkey = GlobalKey<FormState>();
+  
+     showDialog(
+                context: context,
+                builder: (ctx) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Enter Username',
+                      style: TextStyle(
+                          color: Color(0xff2E2E2E),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                         if(_reminderformkey.currentState!.validate()){  
+                          DashboardVM.instance.getUserId(_namecontroller.text);
+                          Navigator.of(ctx).pop();
+                          setState(() {});
+                         }
+                            },
+                          child: Text('Yes')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No'))
+                    ],
+                    content: Container(
+          height: 100.0,
           width: 500.0,
           padding: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
 
               // color: Colors.white,
               borderRadius: BorderRadius.circular(15)),
-          child: Column(children: [
+             child: Form(
+               key: _reminderformkey,
+               child: Column(children: [
             TextFormField(
-                    controller: _namecontroller,
-                    keyboardType: TextInputType.name,
-                    validator: (str) {
-                      if (str == null || str.isEmpty) {
-                        return 'This field can not be empty';
-                      }
-                    },
-                    decoration:
-                        const InputDecoration(labelText: 'User name'),
-                  ),
+                      controller: _namecontroller,
+                      keyboardType: TextInputType.name,
+                      validator: (str) {
+                        if (str == null || str.isEmpty) {
+                          return 'This field can not be empty';
+                        }
+                        else if(str.contains("@")){
+                          return '@ not allowed';
+                        }
+                      },
+                      decoration:
+                          const InputDecoration(labelText: 'Username'),
+                    ),
           ],),
+             ),
         ),
-      ),
-    );
+                  );
+                });
   }
+
 
   @override
   Widget build(BuildContext context) {

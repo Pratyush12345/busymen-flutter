@@ -1,5 +1,5 @@
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:dart_twitter_api/api/tweets/data/tweet.dart';
 import 'package:dart_twitter_api/twitter_api.dart';
 import 'package:flutter/material.dart';

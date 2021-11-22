@@ -1,8 +1,8 @@
-import 'package:busyman/provider/taskprovider.dart';
-import 'package:busyman/screens/tasks/alltaskstopwidget.dart';
-import 'package:busyman/screens/tasks/taskfilters.dart';
-import 'package:busyman/screens/tasks/taskwidget1.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/provider/taskprovider.dart';
+import 'package:Busyman/screens/tasks/alltaskstopwidget.dart';
+import 'package:Busyman/screens/tasks/taskfilters.dart';
+import 'package:Busyman/screens/tasks/taskwidget1.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

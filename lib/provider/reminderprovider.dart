@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:busyman/models/reminder.dart';
+import 'package:Busyman/models/reminder.dart';
+import 'package:Busyman/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +24,10 @@ class Reminderprovider extends ChangeNotifier {
   };
 
   fetchDateVise(DateTime date) {
+    print("fetching date wiseeeeeeeeeeeeeeeee");
+    print(date);
+    print("fetching date wiseeeeeeeeeeeeeeeee");
+    
     DateTime day1 = date.subtract(const Duration(days: 2));
     DateTime day2 = date.subtract(const Duration(days: 1));
     DateTime day3 = date;
@@ -52,25 +57,31 @@ class Reminderprovider extends ChangeNotifier {
 
   Future<void> addReminder(Reminder reminder) async {
     try {
+      print("length before ====${_reminders.length}");
       final ref = await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/');
-      final ref2 = await ref.push().get();
-      ref.child(ref2.key.toString()).set(reminder.toJson());
-      reminder.id = ref2.key!;
+      final ref2 = await ref.push().key;
+      ref.child(ref2.toString()).update(reminder.toJson());
+      reminder.id = ref2;
 
       _reminders.add(reminder);
+      print("reminder added ${reminders.length}");
       notifyListeners();
-    } catch (e) {}
+    } catch (e) {
+      print("error occurred");
+      print(e);
+    }
   }
 
-  Future<void> deleteReminder(String id) async {
+  Future<void> deleteReminder(String id, int notificationId) async {
     try {
       await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/$id')
           .remove();
       _reminders.removeWhere((element) => element.id == id);
+      NotificationService().deleteNotification(notificationId);
       notifyListeners();
     } catch (e) {
       print(e.toString());
@@ -96,8 +107,9 @@ class Reminderprovider extends ChangeNotifier {
       final tasks = await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/')
-          .get();
+          .once();
       print(tasks.value);
+      if(tasks.value!=null){
       final string = jsonEncode(tasks.value);
       final Map<String, dynamic> data = jsonDecode(string);
       for (int i = 0; i < data.keys.length; i++) {
@@ -107,9 +119,11 @@ class Reminderprovider extends ChangeNotifier {
           date: data.values.toList()[i]['date'],
           time: data.values.toList()[i]['time'],
           category: data.values.toList()[i]['category'],
+          notificationId: data.values.toList()[i]['notificationId']
         );
 
         _reminders.add(task);
+      }
       }
     }
   }

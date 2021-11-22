@@ -1,8 +1,8 @@
 
 
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
-import 'package:busyman/services/appColor.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -19,7 +19,7 @@ class UserDetailModel {
     data['positionName'] = this.positionName;
     data['phoneNumber'] = this.phoneNumber;
     data['officeAddress'] = this.officeAddress;
-    data['localAddress'] = this.officeAddress;
+    data['localAddress'] = this.localAddress;
     return data;
   }
   UserDetailModel.fromSnapshot(DataSnapshot snapshot)

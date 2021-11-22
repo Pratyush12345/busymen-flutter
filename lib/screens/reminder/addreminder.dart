@@ -1,8 +1,8 @@
-import 'package:busyman/models/reminder.dart';
-import 'package:busyman/provider/reminderprovider.dart';
-import 'package:busyman/screens/tasks/taskfilters.dart';
-import 'package:busyman/services/notification_service.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/models/reminder.dart';
+import 'package:Busyman/provider/reminderprovider.dart';
+import 'package:Busyman/services/notification_service.dart';
+import 'package:Busyman/services/random_string.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -350,13 +350,20 @@ class _AddReminderState extends State<AddReminder> {
                   TextButton(
                       onPressed: () {
                         if (_reminderformkey.currentState!.validate()) {
+                          int _notificationId = int.parse(randomNumeric(5));
+                          print("date is ${ _datecontroller.text}");
                           Reminder reminder = Reminder(
                             id: UniqueKey().toString(),
                             reminderName: _namecontroller.text,
-                            date: _datecontroller.text,
-                            time: _timecontroller.text,
+                            date: _datecontroller.text.trim(),
+                            time: _timecontroller.text.trim(),
                             category: category,
+                            notificationId: _notificationId
                           );
+                          
+                          reminderProvider.addReminder(reminder).whenComplete(() =>{
+                            reminderProvider.fetchDateVise(DateTime.now())
+                          });
                           print("1111111111111111");
                           print(_timecontroller.text);
                           print("1111111111111111");
@@ -391,12 +398,13 @@ class _AddReminderState extends State<AddReminder> {
                           print("selected $selectedDate"); 
                           print(days);
                           print("--------------------");
+                          
                           NotificationService().scheduleNotification(
                             reminder.reminderName,
                             reminder.reminderName,
                             days,
+                            _notificationId
                           );                      
-                          reminderProvider.addReminder(reminder);
 
                           Navigator.of(context).pop();
                         }

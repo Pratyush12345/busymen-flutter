@@ -1,10 +1,10 @@
 
-import 'package:busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
-import 'package:busyman/screens/Twitter/frontened/dashboard.dart';
-import 'package:busyman/screens/Twitter/frontened/TopBars/topbar.dart';
-import 'package:busyman/screens/Twitter/frontened/dashboard_twitter.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:Busyman/screens/Twitter/frontened/dashboard.dart';
+import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
+import 'package:Busyman/screens/Twitter/frontened/dashboard_twitter.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

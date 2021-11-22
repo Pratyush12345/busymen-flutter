@@ -1,6 +1,6 @@
 // import 'package:Decon/Controller/ViewModels/Services/Auth.dart';
 // import 'package:Decon/View_Android/Authentication/login_screen.dart';
-import 'package:busyman/provider/loginprovider.dart';
+import 'package:Busyman/provider/loginprovider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginVM {

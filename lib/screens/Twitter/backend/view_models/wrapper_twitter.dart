@@ -1,7 +1,7 @@
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:busyman/screens/Twitter/frontened/dashboard.dart';
-import 'package:busyman/screens/Twitter/frontened/dashboard_twitter.dart';
-import 'package:busyman/screens/Twitter/frontened/twitter_signin.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/frontened/dashboard.dart';
+import 'package:Busyman/screens/Twitter/frontened/dashboard_twitter.dart';
+import 'package:Busyman/screens/Twitter/frontened/twitter_signin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

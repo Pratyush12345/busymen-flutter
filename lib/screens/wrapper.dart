@@ -1,8 +1,7 @@
-import 'package:busyman/provider/loginprovider.dart';
-import 'package:busyman/screens/login/loginscreen.dart';
-import 'package:busyman/screens/tasks/alltasks.dart';
-import 'package:busyman/screens/tasks/alltasks1.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Busyman/provider/loginprovider.dart';
+import 'package:Busyman/screens/login/loginscreen.dart';
+import 'package:Busyman/screens/tasks/alltasks.dart';
+import 'package:Busyman/screens/tasks/alltasks1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

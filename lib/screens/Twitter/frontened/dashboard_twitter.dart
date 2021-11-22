@@ -1,11 +1,11 @@
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
-import 'package:busyman/screens/Twitter/frontened/TopBars/topbar_dashbaord.dart';
-import 'package:busyman/screens/Twitter/frontened/tabs_twitter/all_people.dart';
-import 'package:busyman/screens/Twitter/frontened/tabs_twitter/follower_list_tab.dart';
-import 'package:busyman/screens/Twitter/frontened/tabs_twitter/following_list_tab.dart';
-import 'package:busyman/screens/Twitter/frontened/TopBars/topbar.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar_dashbaord.dart';
+import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/all_people.dart';
+import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/follower_list_tab.dart';
+import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/following_list_tab.dart';
+import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard_Tabbar extends StatefulWidget {

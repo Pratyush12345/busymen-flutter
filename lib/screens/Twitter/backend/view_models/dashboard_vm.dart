@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
-import 'package:busyman/screens/Twitter/backend/utils/models.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/models.dart';
 import 'package:dart_twitter_api/twitter_api.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -239,7 +239,7 @@ deleteUser(String id_str, bool ischecked) async{
 
 getUserId(String username) async{
   String url;
-  url = "https://api.twitter.com/2/users/by/username/Nikhilvyas14";
+  url = "https://api.twitter.com/2/users/by/username/$username";
   //url = "https://api.twitter.com/2/users/by/username/$username";
   try{
     

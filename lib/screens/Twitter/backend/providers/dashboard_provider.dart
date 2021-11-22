@@ -1,4 +1,4 @@
-import 'package:busyman/models/models.dart';
+import 'package:Busyman/models/models.dart';
 import 'package:flutter/cupertino.dart';
 
 class FollowerDashboardProvider extends ChangeNotifier {

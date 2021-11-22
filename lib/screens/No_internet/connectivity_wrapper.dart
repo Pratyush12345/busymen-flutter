@@ -1,11 +1,9 @@
 
-import 'package:busyman/models/models.dart';
-import 'package:busyman/screens/No_internet/no_internet_screen.dart';
-import 'package:busyman/screens/No_internet/wait.dart';
-import 'package:busyman/screens/wrapper.dart';
+import 'package:Busyman/screens/No_internet/no_internet_screen.dart';
+import 'package:Busyman/screens/No_internet/wait.dart';
+import 'package:Busyman/screens/wrapper.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ConnectivityWrapper extends StatelessWidget{
   @override

@@ -1,8 +1,8 @@
 
-import 'package:busyman/models/models.dart';
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/models/models.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:dart_twitter_api/api/users/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -159,7 +159,7 @@ class _AddProfileTabState extends State<AddProfileTab> {
                             officeAddress: _officaladdresscontroller.text.trim()
                           );
                           await ProfileTabVM.instance.addUpdateProfile(context, model);
-                          ProfileTabVM.instance.fetchUserDetail(context);
+                          await ProfileTabVM.instance.fetchUserDetail(context);
                           Navigator.of(context).pop();
                         }
                       },

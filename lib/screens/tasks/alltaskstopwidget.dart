@@ -1,5 +1,5 @@
-import 'package:busyman/provider/taskprovider.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/provider/taskprovider.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,40 +37,40 @@ class TopView extends StatelessWidget {
                             fontWeight: FontWeight.w700),
                       ),
                     ),
-                    SizedBox(
-                      width: _app.appWidth(50),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                icon: Image.asset(
-                                  'assets/icons/downarrow.png',
-                                  height: 15,
-                                  width: 15,
-                                  color: Colors.white,
-                                ),
-                                items: const [
-                                  DropdownMenuItem(
-                                      child: Text('22 Oct 2021',
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700)))
-                                ],
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/Reminders');
-                                },
-                                icon: const Image(
-                                  image:
-                                      AssetImage('assets/icons/reminder.png'),
-                                  color: Colors.white,
-                                ))
-                          ]),
-                    )
+                    // SizedBox(
+                    //   width: _app.appWidth(50),
+                    //   child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.end,
+                    //       children: [
+                    //         DropdownButtonHideUnderline(
+                    //           child: DropdownButton(
+                    //             icon: Image.asset(
+                    //               'assets/icons/downarrow.png',
+                    //               height: 15,
+                    //               width: 15,
+                    //               color: Colors.white,
+                    //             ),
+                    //             items: const [
+                    //               DropdownMenuItem(
+                    //                   child: Text('22 Oct 2021',
+                    //                       style: TextStyle(
+                    //                           fontSize: 17,
+                    //                           color: Colors.white,
+                    //                           fontWeight: FontWeight.w700)))
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         IconButton(
+                    //             onPressed: () {
+                    //               Navigator.of(context).pushNamed('/Reminders');
+                    //             },
+                    //             icon: const Image(
+                    //               image:
+                    //                   AssetImage('assets/icons/reminder.png'),
+                    //               color: Colors.white,
+                    //             ))
+                    //       ]),
+                    // )
                   ],
                 ),
               ),

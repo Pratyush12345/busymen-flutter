@@ -36,20 +36,17 @@ class NotificationService {
   tz.TZDateTime _nextInstanceOfTenAM(Duration days) {
     print(tz.local);
     tz.initializeTimeZones();
+    
     var ist = tz.getLocation('Asia/Colombo');
     print(ist);
     final tz.TZDateTime now = tz.TZDateTime.now(ist);
+    
     tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour, now.minute );
-    if (scheduledDate.isBefore(now)) {
-      print('yes');
-      scheduledDate = scheduledDate.add(days);
-      print("1111222");
-    }
+        tz.TZDateTime(ist, now.year, now.month, now.day, now.hour, now.minute );
+    // if (scheduledDate.isBefore(now)) {
+    //   scheduledDate = scheduledDate.add(days);
+    // }
     scheduledDate = scheduledDate.add(days);
-    print(scheduledDate.timeZone);
-    print(scheduledDate.day);
-    print(scheduledDate);
     return scheduledDate;
   }
 
@@ -57,10 +54,11 @@ class NotificationService {
     String title,
     String description,
     Duration days,
+    int notificationId
   ) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        title,
+        notificationId,
+        "Busymen",
         description,
         _nextInstanceOfTenAM(days),
          NotificationDetails(
@@ -73,6 +71,10 @@ class NotificationService {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime);
     count++;
+  } 
+
+  deleteNotification(int id){
+    flutterLocalNotificationsPlugin.cancel(id);
   }
 
    showNotification(String title, String body, String id) async {

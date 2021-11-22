@@ -1,13 +1,11 @@
-import 'package:busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
-import 'package:busyman/screens/Twitter/backend/view_models/wrapper_twitter.dart';
-import 'package:busyman/screens/reminder/allreminders.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab.dart';
-import 'package:busyman/screens/tasks/Bottom_Tabs/Task_tab.dart';
-import 'package:busyman/services/notification_service.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:Busyman/screens/Twitter/backend/view_models/wrapper_twitter.dart';
+import 'package:Busyman/screens/reminder/allreminders.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab.dart';
+import 'package:Busyman/screens/tasks/Bottom_Tabs/Task_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,17 +45,13 @@ class _AllTasksState extends State<AllTasks> {
           if(selectedtab == 0){
             Navigator.of(context).pushNamed('/AddTask');
           }else if(selectedtab == 1){
-            NotificationService().scheduleNotification(
-                            "title",
-                            "description",
-                            Duration(minutes: 1),
-                          );
-            // NotificationService().showNotification(
+            // NotificationService().scheduleNotification(
             //                 "title",
             //                 "description",
-            //                 "101"
-            //               );              
-            //Navigator.of(context).pushNamed('/AddReminder');
+            //                 Duration(minutes: 1),
+            //                 int.parse(randomNumeric(2))
+            //               );
+            Navigator.of(context).pushNamed('/AddReminder');
           }else{
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddProfileTab(isEdit: GlobalVariable.isProfileEdit)));
           }

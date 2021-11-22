@@ -1,5 +1,5 @@
-import 'package:busyman/services/sizeconfig.dart';
-import 'package:busyman/views/login_viewmodel.dart';
+import 'package:Busyman/services/sizeconfig.dart';
+import 'package:Busyman/views/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

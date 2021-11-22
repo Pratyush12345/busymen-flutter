@@ -1,4 +1,4 @@
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:flutter/material.dart';
 class Wait extends StatefulWidget {
   @override

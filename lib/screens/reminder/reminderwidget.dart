@@ -1,12 +1,13 @@
-import 'package:busyman/provider/reminderprovider.dart';
+import 'package:Busyman/provider/reminderprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class ReminderWidget extends StatelessWidget {
   String? id;
+  int? notifcationId;
   DateTime? date;
-  ReminderWidget({this.id, this.date});
+  ReminderWidget({this.id, this.date, required this.notifcationId});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class ReminderWidget extends StatelessWidget {
                     actions: [
                       ElevatedButton(
                           onPressed: () async {
-                            await reminderProvider.deleteReminder(id!);
+                            await reminderProvider.deleteReminder(id!, notifcationId! );
                             reminderProvider.fetchDateVise(date!);
 
                             Navigator.of(context).pop();

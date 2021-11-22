@@ -1,8 +1,8 @@
-import 'package:busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
-import 'package:busyman/screens/Twitter/frontened/retweets_show.dart';
-import 'package:busyman/screens/Twitter/frontened/tabs_twitter/search_user.dart';
-import 'package:busyman/screens/Twitter/frontened/twitter_signin.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
+import 'package:Busyman/screens/Twitter/frontened/retweets_show.dart';
+import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/search_user.dart';
+import 'package:Busyman/screens/Twitter/frontened/twitter_signin.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

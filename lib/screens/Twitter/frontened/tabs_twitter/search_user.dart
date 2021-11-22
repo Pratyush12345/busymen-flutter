@@ -1,8 +1,8 @@
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:busyman/screens/Twitter/backend/utils/models.dart';
-import 'package:busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/models.dart';
+import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,42 +16,39 @@ class SearchUser extends StatefulWidget {
 class _SearchUserState extends State<SearchUser> {
   late App _app;
   TextEditingController? _searchController;
-  
-  void showselectPeopleDialog(TwitterUsersModel model){
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        // backgroundColor: const Color(0xff297687),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                DashboardVM.instance.selectFromSearchUsers(model);
-                Navigator.of(ctx).pop();
-                Navigator.of(context).pop();
-                // Navigator.of(context).pop();
-              },
-              child: const Text('Ok'))
-        ],
-        content: Container(
-          height: 200.0,
-          width: 500.0,
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-
-              // color: Colors.white,
-              borderRadius: BorderRadius.circular(15)),
-          child: Column(children: [
-            Text("Are You sure, You want to add this user?",
-            style: TextStyle(fontSize: 18.0, color: Colors.black),),
-          ],),
-        ),
-      ),
-    );
+ 
+  void _showSelectPeopleDialog(TwitterUsersModel model){
+     showDialog(
+                context: context,
+                builder: (ctx) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Are You sure, You want to add this user?',
+                      style: TextStyle(
+                          color: Color(0xff2E2E2E),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                            DashboardVM.instance.selectFromSearchUsers(model);
+                            Navigator.of(ctx).pop();
+                            Navigator.of(context).pop();
+                            // Navigator.of(context).pop();
+              
+                            },
+                          child: Text('Yes')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No'))
+                    ],
+                  );
+                });
   }
+  
 
   @override
     void initState() {
@@ -129,7 +126,7 @@ class _SearchUserState extends State<SearchUser> {
                                 children: [
                                   ListTile(
                                     onTap: (){
-                                      showselectPeopleDialog(_twitterUserModel);
+                                      _showSelectPeopleDialog(_twitterUserModel);
                                     },
                                     tileColor: Color(0xffF3F3F3),
                                     title: Padding(

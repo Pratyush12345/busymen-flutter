@@ -1,4 +1,4 @@
-import 'package:busyman/services/sizeconfig.dart';
+import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 
 class TaskDetail extends StatelessWidget {

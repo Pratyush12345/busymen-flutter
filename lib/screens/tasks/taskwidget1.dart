@@ -1,6 +1,6 @@
-import 'package:busyman/models/task.dart';
-import 'package:busyman/provider/taskprovider.dart';
-import 'package:busyman/screens/tasks/editTaskScreen.dart';
+import 'package:Busyman/models/task.dart';
+import 'package:Busyman/provider/taskprovider.dart';
+import 'package:Busyman/screens/tasks/editTaskScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 
-import 'package:busyman/models/models.dart';
-import 'package:busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:Busyman/models/models.dart';
+import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
