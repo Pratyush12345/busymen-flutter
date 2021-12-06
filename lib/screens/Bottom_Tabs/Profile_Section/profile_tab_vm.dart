@@ -2,6 +2,7 @@
 import 'package:Busyman/models/models.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class ProfileTabVM{
   fetchUserDetail(BuildContext context) async{
    try{
    showIndicator = true;  
-   DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("Users/UserDetails/").once();
+   DataSnapshot snapshot = await FirebaseDatabase.instance.reference().child("Users/${FirebaseAuth.instance.currentUser!.uid}/UserDetails/").once();
    print(snapshot.value);
    if(snapshot.value==null ||snapshot.value.toString().isEmpty ){
      GlobalVariable.isProfileEdit = false;
@@ -37,7 +38,7 @@ class ProfileTabVM{
 
   addUpdateProfile(BuildContext context, UserDetailModel model ) async{
    try{  
-   await FirebaseDatabase.instance.reference().child("Users/UserDetails/").update(model.toJson());
+   await FirebaseDatabase.instance.reference().child("Users/${FirebaseAuth.instance.currentUser!.uid}/UserDetails/").update(model.toJson());
    }
    catch(e){
      print(e);

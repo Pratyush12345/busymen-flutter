@@ -25,32 +25,39 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<FBUser>.value(
-      value: Auth.instance.appuser,
-      initialData: FBUser(uid: ""),
+     value: Auth.instance.appuser,
+     initialData: FBUser(uid: ""),
+     
+     child: MultiProvider(
+       providers: [
+         ChangeNotifierProvider(create: (ctx) => TaskProvider()),
+          ChangeNotifierProvider(create: (ctx) => ChangeAddTaskImageProvider()),
+         ChangeNotifierProvider(create: (ctx) => Reminderprovider()),
+         ChangeNotifierProvider(create: (ctx) => FollowingDashboardProvider()),
+         ChangeNotifierProvider(create: (ctx) => FollowerDashboardProvider()),
+         ChangeNotifierProvider(create: (ctx) => AllSelectedDashboardProvider()),
+         ChangeNotifierProvider(create: (ctx) => SearchUserProvider()),
+         ChangeNotifierProvider(create: (ctx) => ChangeBottomTabProvider()),
+         ChangeNotifierProvider(create: (ctx) => UserProfileProvider()),
+       ],
+       child: GestureDetector(
+         onTap: () {
+         print("Tapppedddd");
+         FocusManager.instance.primaryFocus!.unfocus();
+        },
       
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (ctx) => TaskProvider()),
-           ChangeNotifierProvider(create: (ctx) => ChangeAddTaskImageProvider()),
-          ChangeNotifierProvider(create: (ctx) => Reminderprovider()),
-          ChangeNotifierProvider(create: (ctx) => FollowingDashboardProvider()),
-          ChangeNotifierProvider(create: (ctx) => FollowerDashboardProvider()),
-          ChangeNotifierProvider(create: (ctx) => AllSelectedDashboardProvider()),
-          ChangeNotifierProvider(create: (ctx) => SearchUserProvider()),
-          ChangeNotifierProvider(create: (ctx) => ChangeBottomTabProvider()),
-          ChangeNotifierProvider(create: (ctx) => UserProfileProvider()),
-        ],
-        child: MaterialApp(
-          title: 'Busymen',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: ConnectivityWrapper(),
-          initialRoute: '/',
-          onGenerateRoute: RouteGenerator.generateRoute,
-        ),
-      ),
-    );
+         child: MaterialApp(
+           title: 'Busymen',
+           debugShowCheckedModeBanner: false,
+           theme: ThemeData(
+             primarySwatch: Colors.blue,
+           ),
+           home: ConnectivityWrapper(),
+           initialRoute: '/',
+           onGenerateRoute: RouteGenerator.generateRoute,
+         ),
+       ),
+     ),
+      );
   }
 }

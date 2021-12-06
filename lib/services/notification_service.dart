@@ -58,7 +58,7 @@ class NotificationService {
   ) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
-        "Busymen",
+        "Busyman",
         description,
         _nextInstanceOfTenAM(days),
          NotificationDetails(
@@ -67,7 +67,7 @@ class NotificationService {
           'description101',
           'Busyman Reminders'
         )),
-        androidAllowWhileIdle:false,
+        androidAllowWhileIdle:true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime);
     count++;

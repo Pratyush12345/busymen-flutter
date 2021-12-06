@@ -78,58 +78,27 @@ class TwitterTopView extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   top: _app.appVerticalPadding(headerName.contains("Dashboard")?12:16),
-          //   left: 0.0,
-          //   right: 0.0,
-          //   child: Container(
-          //     height: _app.appHeight(6),
-          //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          //     child: DecoratedBox(
-          //       decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(25.0),
-          //           border: Border.all(width: 1.0),
-          //           color: Colors.white,
-          //           shape: BoxShape.rectangle,
-          //           boxShadow: const [
-          //             BoxShadow(
-          //                 offset: Offset(1.0, 4.0),
-          //                 blurRadius: 4.0,
-          //                 spreadRadius: -1.0,
-          //                 color: Colors.grey,
-          //                 //blurStyle: BlurStyle.normal
-          //                 ),
-          //           ]),
-          //       child: Row(
-          //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Expanded(
-          //             child: TextField(
-          //               textAlign: TextAlign.center,
-          //               showCursor: false,
-          //               onChanged: (val) {},
-          //               onTap: (){
-          //                if(headerName.contains("Dashboard"))
-          //                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchUser()));
-          //               },
-          //               decoration: const InputDecoration(
-          //                   hintText: "Search",
-          //                   suffixIcon: Icon(
-          //                     Icons.search,
-          //                     color: Color(0xff297687),
-          //                   ),
-          //                   border: OutlineInputBorder(
-          //                       borderRadius:
-          //                           BorderRadius.all(Radius.circular(25)),
-          //                       borderSide: BorderSide(
-          //                           width: 1, color: Color(0xff297687)))),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // )
+          if(headerName.contains("Profile"))
+          Positioned(
+            top: _app.appVerticalPadding(12),
+            left: 0.0,
+            right: 0.0,
+            child: CircleAvatar(
+              radius: 54.0,
+              backgroundColor: Colors.grey,
+              child: ClipOval(
+                
+                child: Image.network(
+                  "https://www.ewc.edu/wp-content/uploads/person-icon-silhouette-png-0.png",
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            
+            ),
+          
         ],
       ),
     );

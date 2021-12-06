@@ -53,9 +53,12 @@ class LoginVM {
     print(verificationID);
 
     print("ver id=================");
-    await Auth.instance.signInWithOTP(
+    var result = await Auth.instance.signInWithOTP(
       verificationID,
       smsCode,
     );
+    print("Result");
+    print(result);
+
   }
 }

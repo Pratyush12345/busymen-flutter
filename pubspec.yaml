@@ -49,8 +49,8 @@ dependencies:
   connectivity:
   flutter_image_compress:
   firebase_storage: 
-  image_picker:     
-
+  image_picker:   
+  sn_progress_dialog: ^1.0.3
 
 
   # The following adds the Cupertino Icons font to your application.

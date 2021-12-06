@@ -1,11 +1,11 @@
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/profile_tab.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Task_tab.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/screens/Twitter/backend/view_models/wrapper_twitter.dart';
 import 'package:Busyman/screens/reminder/allreminders.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Task_tab.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,8 @@ class _AllTasksState extends State<AllTasks> {
   
   @override
     void initState() {
-      AllTaskVM.instance.updateToken();  
+      AllTaskVM.instance.initHomeScreen(context);
+     
       WidgetsBinding.instance!.addPostFrameCallback((_) {
          Provider.of<ChangeBottomTabProvider>(context, listen: false).changeBottomTabProvider(selectedIndexLocal: 0);
         });

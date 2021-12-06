@@ -1,19 +1,16 @@
-import 'package:Busyman/models/task.dart';
+
 import 'package:Busyman/screens/login/loginscreen.dart';
 import 'package:Busyman/screens/login/otp_verfication.dart';
 import 'package:Busyman/screens/reminder/addreminder.dart';
 import 'package:Busyman/screens/reminder/allreminders.dart';
 import 'package:Busyman/screens/reminder/editreminder.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/add_profile_tab.dart';
 import 'package:Busyman/screens/tasks/addtaskscreen.dart';
-import 'package:Busyman/screens/tasks/alltasks.dart';
 import 'package:Busyman/screens/tasks/alltasks1.dart';
 import 'package:Busyman/screens/tasks/editTaskScreen.dart';
-import 'package:Busyman/screens/tasks/sectiontaskscreen.dart';
 import 'package:Busyman/screens/tasks/taskdetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:Busyman/screens/No_internet/connectivity_wrapper.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
@@ -24,10 +21,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LogInScreen());
       case '/Alltasks':
         return MaterialPageRoute(builder: (_) => const AllTasks());
+      case '/connectivityWrapper':
+        return MaterialPageRoute(builder: (_) =>  ConnectivityWrapper());  
       case '/AddTask':
         return MaterialPageRoute(builder: (_) => AddTask());
-      case '/TaskDetail':
-        return MaterialPageRoute(builder: (_) => const TaskDetail());
       // case '/SectionTask':
       //   return MaterialPageRoute(
       //       builder: (_) => SectionTaskScreen(
@@ -44,6 +41,11 @@ class RouteGenerator {
             builder: (_) => EditTask(
                   args! as String,
                 ));
+      case '/TaskDetail':
+        return MaterialPageRoute(
+            builder: (_) => TaskDetail(
+                  args! as String,
+                ));          
       case '/EditReminder':
         return MaterialPageRoute(
             builder: (_) => EditReminder(

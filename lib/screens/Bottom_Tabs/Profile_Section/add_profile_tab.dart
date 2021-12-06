@@ -1,9 +1,8 @@
 
 import 'package:Busyman/models/models.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
 import 'package:Busyman/services/sizeconfig.dart';
-import 'package:dart_twitter_api/api/users/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

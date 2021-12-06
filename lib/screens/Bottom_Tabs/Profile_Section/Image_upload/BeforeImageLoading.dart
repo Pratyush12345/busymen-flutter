@@ -1,7 +1,7 @@
 
 
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
 import 'package:Busyman/services/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +22,19 @@ class _BeforeImageLoadingState extends State<BeforeImageLoading> {
   @override
   Widget build(BuildContext context) {
     try{
+
       if(widget.isEdit && widget.imageurl.contains("https")){
           isLink = true;
+       print("ifffffffff");
       }
     }
     catch(e){
+      print(e);
+      print("error");
       isLink = false;
     }
+    print("Link");
+    print(isLink);
     return Scaffold(
       appBar: AppBar(
         title: Text("Image"),
@@ -68,7 +74,7 @@ class _BeforeImageLoadingState extends State<BeforeImageLoading> {
                         onPressed: () {
                           if(widget.isEdit){
                            AllTaskVM.instance.deleteImageinFirebaseStorage(widget.taskid!, "image${widget.pos}", widget.pos);
-
+                           
                            AllTaskVM.instance.imageUrlList.removeWhere((element) => element.position == widget.pos);
                            
                            Provider.of<ChangeAddTaskImageProvider>(context, listen: false).changeAddTaskImageProvider();
@@ -76,8 +82,11 @@ class _BeforeImageLoadingState extends State<BeforeImageLoading> {
                           }
                           else{
                           AllTaskVM.instance.listOfImageFiles.removeWhere((element) => element.file.path == widget.imageurl.path );
-                          Provider.of<ChangeAddTaskImageProvider>(context, listen: false).changeAddTaskImageProvider();
-                          
+                          int newPos = 0;
+                            if(AllTaskVM.instance.listOfImageFiles.isNotEmpty){
+                              AllTaskVM.instance.listOfImageFiles.map((e) => e.position = newPos++).toList();
+                            }
+                          Provider.of<ChangeAddTaskImageProvider>(context, listen: false).changeAddTaskImageProvider();                  
                           }
                           Navigator.of(context).pop();
                           },
@@ -92,7 +101,9 @@ class _BeforeImageLoadingState extends State<BeforeImageLoading> {
                             int? pos = -1;
                             for(int i =0;i<3;i++){
                               int index = AllTaskVM.instance.imageUrlList.indexWhere((element) => element.position == i);
-                              if(index == -1){
+                              int index1 = AllTaskVM.instance.listOfImageFiles.indexWhere((element) => element.position == i);
+                                
+                              if(index == -1 && index1 == -1 ){
                                 pos = i;
                                 break;
                               }

@@ -1,0 +1,3 @@
+
+
+String progressDialogMsg = "Please Wait";

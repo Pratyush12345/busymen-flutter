@@ -1,8 +1,10 @@
+
 import 'package:Busyman/provider/loginprovider.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
+import 'package:Busyman/screens/test_screen.dart';
 import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +51,10 @@ class _ProfileTabState extends State<ProfileTab> {
   }
   Widget getLogOUT(IconData icon,String labeltext){
     return InkWell(
-      onTap: (){
+      onTap: () {
          Auth.instance.signOut();
+         //Navigator.of(context).push(MaterialPageRoute(builder: (context) => TestScreen()));
+         
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +101,7 @@ class _ProfileTabState extends State<ProfileTab> {
           SizedBox(
             height: _app.appVerticalPadding(10.5),
           ),
-
+          SizedBox(height: 20.0,),
           SingleChildScrollView(
             child: Padding(
               

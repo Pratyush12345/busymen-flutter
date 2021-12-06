@@ -1,3 +1,4 @@
+import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:Busyman/views/login_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _OtpScreenState extends State<OtpScreen> {
   final _pinPutFocusNode = FocusNode();
 
   bool keyboard = false;
+  bool _showIndicator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -114,11 +116,21 @@ class _OtpScreenState extends State<OtpScreen> {
                   SizedBox(
                     height: _app.appHeight(10),
                   ),
+                  _showIndicator ? AppConstant.circulerProgressIndicator():
                   TextButton(
                       onPressed: () async {
+                        _showIndicator = true;
+                        
+                        setState(() {});
+                        
                         await LoginVM.instance
                             .manualLogin(_pinPutController.text);
-                        Navigator.of(context).pushReplacementNamed('/Alltasks');
+                        
+                        _showIndicator = false;
+                        
+                        setState(() {});  
+
+                        Navigator.of(context).pushReplacementNamed('/connectivityWrapper');
                       },
                       child: Container(
                         width: double.infinity,

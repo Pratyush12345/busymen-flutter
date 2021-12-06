@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:Busyman/models/task.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,6 +106,7 @@ class TaskProvider extends ChangeNotifier {
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/')
           .once();
       print(tasks.value);
+      if(tasks.value !=null){
       final string = jsonEncode(tasks.value);
       final Map<String, dynamic> data = jsonDecode(string);
       for (int i = 0; i < data.keys.length; i++) {
@@ -147,6 +148,7 @@ class TaskProvider extends ChangeNotifier {
       _tasks.sort((a,b)=> DateTime.parse(b.currentDateTime).compareTo(DateTime.parse(a.currentDateTime)));
       _tasksdup.clear();
       _tasksdup = List.from(_tasks);
+    }
     }
   }
 

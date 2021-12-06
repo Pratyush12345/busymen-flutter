@@ -1,11 +1,13 @@
 import 'package:Busyman/models/task.dart';
 import 'package:Busyman/provider/taskprovider.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/screens/tasks/contacttile.dart';
 import 'package:Busyman/screens/tasks/taskfilters.dart';
 import 'package:Busyman/services/appColor.dart';
+import 'package:Busyman/services/appString.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -176,7 +178,6 @@ class _EditTaskState extends State<EditTask> {
        print("^^^^^^^^^^^^^^");
     }
     initial = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -643,7 +644,7 @@ class _EditTaskState extends State<EditTask> {
                         InkWell(
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BeforeImageLoading(
-                              imageurl: e.fileurl,
+                              imageurl: e.file,
                               isEdit: false,
                               pos: e.position,
                               taskid: widget.id,
@@ -704,6 +705,8 @@ class _EditTaskState extends State<EditTask> {
                           onPressed: () {
                             print(category);
                             if (_formKey.currentState!.validate()) {
+                             GlobalVariable.progressDialog!.show(max: 1, msg: progressDialogMsg);
+                          
                               setState(() {
                                 isLoading = true;
                               });
@@ -727,6 +730,7 @@ class _EditTaskState extends State<EditTask> {
                                   isLoading = false;
                                 });
                                 Navigator.of(context).pop();
+                                GlobalVariable.progressDialog!.close();
                               });
                             }
                           },

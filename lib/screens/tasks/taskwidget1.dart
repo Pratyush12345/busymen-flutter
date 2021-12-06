@@ -58,6 +58,9 @@ class _TaskWidgetState extends State<TaskWidget> {
         ),
       ],
       child: ListTile(
+        onTap: (){
+          Navigator.of(context).pushNamed('/TaskDetail', arguments: widget.task!.id);
+        },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 15),
         tileColor: const Color(0xffF3F3F3),

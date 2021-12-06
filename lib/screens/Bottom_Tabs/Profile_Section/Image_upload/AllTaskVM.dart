@@ -1,5 +1,6 @@
 
-import 'package:Busyman/screens/tasks/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
+import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class AllTaskVM{
   static AllTaskVM instance = AllTaskVM._();
@@ -17,10 +19,12 @@ class AllTaskVM{
   List<ImageTaskModel> listOfImageFiles = [];
   
   List<ImageTaskModel> imageUrlList = [];
+  
   init(){
     listOfImageFiles = [];
     imageUrlList = [];
   }
+  
    pickImage(BuildContext context, bool isedit) async {
     XFile? selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     
@@ -53,7 +57,6 @@ class AllTaskVM{
   }
 
   updateToken(){
-    
     FirebaseMessaging.instance.getToken().then((token) {
         FirebaseDatabase.instance
             .reference()
@@ -62,6 +65,13 @@ class AllTaskVM{
       
   });
   }
+
+initHomeScreen(BuildContext context){
+  
+  GlobalVariable.progressDialog = ProgressDialog(context: context);
+  updateToken();
+
+}  
 
  Future<String> storeImageinFirebaseStorage(File imageFile, String taskid, String path) async{
   String url = "";
