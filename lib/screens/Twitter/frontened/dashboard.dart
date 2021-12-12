@@ -1,9 +1,7 @@
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
-import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/models.dart';
 import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
-import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
 import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar_dashbaord.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';

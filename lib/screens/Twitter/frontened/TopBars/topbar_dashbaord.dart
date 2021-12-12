@@ -2,6 +2,7 @@ import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_prov
 import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/screens/Twitter/frontened/retweets_show.dart';
 import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/search_user.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -25,6 +26,9 @@ void showTwitterLogoutDialog(){
                 context: context,
                 builder: (ctx) {
                   return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(cornerRadiusTaskWidget)),
+                    
                     title: const Text(
                       'Are You sure, You want to Logout?',
                       style: TextStyle(
@@ -33,8 +37,22 @@ void showTwitterLogoutDialog(){
                           fontWeight: FontWeight.w400),
                     ),
                     actions: [
-                      ElevatedButton(
-                          onPressed: () async {
+                      MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0,
+                          elevation: 0.0,
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('NO', style: TextStyle(color: blueColour),)),
+                        MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0, 
+                          elevation: 0.0,
+                          
+                          color: blueColour,
+                          onPressed: () async{
                            GlobalVariable.accessToken = "";
                            GlobalVariable.accessTokenSecret = "";
                            GlobalVariable.twittedUid = ""; 
@@ -45,13 +63,11 @@ void showTwitterLogoutDialog(){
                            _pref.remove("IsTwitterLoggedIn");
                            Navigator.of(ctx).pop();
                            Provider.of<ChangeBottomTabProvider>(context, listen: false).changeBottomTabProvider(selectedIndexLocal: 2);
-                             },
-                          child: Text('Yes')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('No'))
+                           
+                            },
+                          child: Text('YES', style: TextStyle(color: Colors.white) )),
+                        
+                  
                     ],
                   );
                 });

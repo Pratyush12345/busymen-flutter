@@ -114,13 +114,13 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
             Positioned(
                 top: _app.appHorizontalPadding(5),
-                left: _app.appHorizontalPadding(42),
+                left: _app.appHorizontalPadding(49),
                 child: Image.asset('assets/images/Polygon1.png')),
             Positioned(
-                left: _app.appHorizontalPadding(40),
+                left: _app.appHorizontalPadding(47),
                 child: Image.asset('assets/images/Polygon2.png')),
             Positioned(
-                left: _app.appHorizontalPadding(60),
+                left: _app.appHorizontalPadding(67),
                 child: Image.asset('assets/images/Polygon3.png')),
             Positioned(
                 left: 0,
@@ -131,7 +131,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 bottom: 0,
                 child: Image.asset('assets/images/Polygon5.png')),
             Positioned(
-                left: _app.appHorizontalPadding(45),
+                left: _app.appHorizontalPadding(52),
                 bottom: 0,
                 child: Image.asset('assets/images/Polygon6.png')),
           ],

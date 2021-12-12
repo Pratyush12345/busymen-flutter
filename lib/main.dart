@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
        ],
        child: GestureDetector(
          onTap: () {
-         print("Tapppedddd");
          FocusManager.instance.primaryFocus!.unfocus();
         },
       
@@ -50,7 +49,21 @@ class MyApp extends StatelessWidget {
            title: 'Busymen',
            debugShowCheckedModeBanner: false,
            theme: ThemeData(
-             primarySwatch: Colors.blue,
+             primarySwatch: MaterialColor(
+               0xff205072,
+               <int, Color>{
+                 50: Color(0xff205072),
+                100: Color(0xff205072),
+                200: Color(0xff205072),
+                300: Color(0xff205072),
+                400: Color(0xff205072),
+                500: Color(0xff205072),
+                600: Color(0xff205072),
+                700: Color(0xff205072),
+                800: Color(0xff263238),
+                900: Color(0xff205072),
+               }
+             ),
            ),
            home: ConnectivityWrapper(),
            initialRoute: '/',

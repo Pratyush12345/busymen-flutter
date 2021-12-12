@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/profile_tab.dart';
 import 'package:Busyman/screens/Bottom_Tabs/Task_tab.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
@@ -41,6 +43,7 @@ class _AllTasksState extends State<AllTasks> {
 
       floatingActionButton:
       Provider.of<ChangeBottomTabProvider>(context).selectedIndex!=2? FloatingActionButton(
+    
         onPressed: () {
           int selectedtab = Provider.of<ChangeBottomTabProvider>(context, listen: false).selectedIndex;
           if(selectedtab == 0){
@@ -58,9 +61,21 @@ class _AllTasksState extends State<AllTasks> {
           }
           
         },
-        child: const Icon(Icons.add),
+        
+        mini: false,
+        child: Container(
+          width: 60.0,
+          height: 60.0,
+          decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  radius: 0.3,
+                  colors: [const Color(0xff329D9C), const Color(0xff205072)])),
+          child: const Icon(Icons.add)),
+        
         backgroundColor: const Color(0xff205072),
       ):null,
+    
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Consumer<ChangeBottomTabProvider>(
         builder: (context, model, child)=> BottomNavigationBar(
@@ -77,31 +92,43 @@ class _AllTasksState extends State<AllTasks> {
           type: BottomNavigationBarType.fixed,
           items: [
              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.fact_check_sharp,
-                  color: model.selectedIndex == 0 ? Color(0xff205072): Color(0xffB7B7B7),
-                  size: 22,
-                ),
+                icon: SvgPicture.asset(
+                    "assets/svg/work-log.svg",
+                    color: model.selectedIndex == 0 ? Color(0xff205072): Color(0xffB7B7B7),
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: const CircularProgressIndicator()),
+                  ), 
 
                 label: ''),
              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.calendar_today,
-                  color: model.selectedIndex == 1 ? Color(0xff205072): Color(0xffB7B7B7),
-                  size: 22,
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 60.0),
+                  child: SvgPicture.asset(
+                    "assets/svg/reminder.svg",
+                    color: model.selectedIndex == 1 ? Color(0xff205072): Color(0xffB7B7B7),
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: const CircularProgressIndicator()),
+                  ), 
                 ),
                 label: ''),
             BottomNavigationBarItem(
-                icon: Hero(
-                  tag: "Twitter",
-                  child: Image.asset('assets/icons/twitter.png', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
+                icon: Padding(
+                  padding: const EdgeInsets.only(left : 60.0),
+                  child: Hero(
+                    tag: "Twitter",
+                    child: Image.asset('assets/icons/twitter.png', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
+                ),
                    label: ''),
              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person,
-                  color: model.selectedIndex == 3 ? Color(0xff205072): Color(0xffB7B7B7),
-                  size: 22,
-                ),
+                icon: SvgPicture.asset(
+                    "assets/svg/your-profile.svg",
+                    color: model.selectedIndex == 3 ? Color(0xff205072): Color(0xffB7B7B7),
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: const CircularProgressIndicator()),
+                  ), 
                 label: ''),
           ],
         ),

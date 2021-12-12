@@ -40,12 +40,13 @@ class TaskProvider extends ChangeNotifier {
       final ref = await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/');
-      final ref2 = await ref.push().get();
-      task.imageUrlList = await AllTaskVM.instance.getUrlListOfImage(ref2.key.toString());
-      ref.child(ref2.key.toString()).set(task.toJson());
-      task.id = ref2.key!;
+      final ref2 = await ref.push().key;
+      task.imageUrlList = await AllTaskVM.instance.getUrlListOfImage(ref2.toString());
+      ref.child(ref2.toString()).set(task.toJson());
+      task.id = ref2;
       // statusUpdate(task);
       _tasks.add(task);
+      _tasks.sort((a,b)=> DateTime.parse(b.currentDateTime).compareTo(DateTime.parse(a.currentDateTime)));
       _tasksdup.clear();
       _tasksdup = List.from(_tasks);
       notifyListeners();
@@ -54,13 +55,13 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteTask(String id) async {
+  Future<void> deleteTask(String id,BuildContext context ) async {
     try {
       await FirebaseDatabase.instance
           .reference()
           .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/$id')
           .remove();
-      AllTaskVM.instance.deleteAllImageFirebaseStorage(id);  
+      AllTaskVM.instance.deleteAllImageFirebaseStorage(id, context);  
       _tasks.removeWhere((element) => element.id == id);
       _tasksdup.clear();
       _tasksdup = List.from(_tasks);

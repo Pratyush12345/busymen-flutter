@@ -4,6 +4,8 @@ import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/screens/Twitter/frontened/dashboard.dart';
 import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
 import 'package:Busyman/screens/Twitter/frontened/dashboard_twitter.dart';
+import 'package:Busyman/screens/tasks/alltaskstopwidget.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -118,19 +120,17 @@ Future<void> fecthdata() async {
     
     _app = App(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Twitter Signin"),
-      // ),
-    
+      
       body: Column(
         children: [
-          TwitterTopView(headerName: "Twitter SignIn"),
+          TopView(headername: "Retweets",),
+          
           SizedBox(
-            height: _app.appVerticalPadding(10.5),
+            height: _app.appVerticalPadding(15),
           ),
           Container(
-            height: 200,
-                  width: 200,
+            height: 110,
+                  width: 110,
             child: Hero(
               tag: "Twitter",
               child: Image.asset(
@@ -146,14 +146,10 @@ Future<void> fecthdata() async {
            color: Colors.blue,
            fontSize: 22.0
           ),),
-          SizedBox(height: 80.0,),
-          
-          Container(
-            child: Center(
-              child: MaterialButton(
-                color:Color(0xff205072) ,
-                onPressed: (){
-                  twitterLogin!.login().then((result) {
+          SizedBox(height: _app.appHeight(31),),
+          TextButton(
+                    onPressed: () {
+                        twitterLogin!.login().then((result) {
                     
                     print("-------------------------");
                     print("status ..................${result.user!.id}");
@@ -202,15 +198,28 @@ Future<void> fecthdata() async {
                   }).catchError((e){
                     print(e);
                   });
-                },
-                child: Text("Twitter Signin",
-                style: TextStyle(color: Colors.white,
-                fontSize: 18.0),
-                ),
-              ),
-            ),
-          ),
-        ],
+                
+                  },
+                      child: Container(
+                        width: _app.appWidth(85),
+                        height: 45,
+                        child: const Center(
+                          child: const Text("Twitter Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                        decoration: BoxDecoration(
+                            gradient: const LinearGradient(colors: const [
+                              Color(0xff205072),
+                              Color(0xff2E8C92)
+                            ]),
+                            borderRadius: BorderRadius.circular(buttonRadius)),
+                      )),
+                
+                ],
       ),
     );
   }

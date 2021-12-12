@@ -1,4 +1,5 @@
 
+import 'package:Busyman/provider/taskprovider.dart';
 import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/BeforeImageLoading.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class AllTaskVM{
@@ -90,9 +92,14 @@ initHomeScreen(BuildContext context){
   return url;              
  }
 
- Future<String> deleteAllImageFirebaseStorage( String taskid,) async{
+ Future<String> deleteAllImageFirebaseStorage( String taskid, context) async{
   String url = "";
-  FirebaseStorage.instance.ref().child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/$taskid').delete();           
+  final task = Provider.of<TaskProvider>(context, listen: false).findTask(taskid);
+  for(int i =0;i< task.imageUrlList.length; i++){
+   if(task.imageUrlList[i].toString().isNotEmpty)
+   FirebaseStorage.instance.ref().child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/$taskid/image$i').delete();           
+  }
+     
   return url;              
  }
 

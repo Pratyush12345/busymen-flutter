@@ -434,6 +434,8 @@ class _EditTaskState extends State<EditTask> {
                   workingFor.isEmpty
                       ? TextButton(
                           onPressed: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            
                             await _fetchContacts();
                             await showContacts(context)
                                 .then((value){ 
@@ -456,24 +458,29 @@ class _EditTaskState extends State<EditTask> {
                           ))
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(20),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: workingFor.length,
                               itemBuilder: (ctx, i) {
                                 return workingFor
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595)),
+                                        SizedBox(width: 10.0,),
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
-                  SizedBox(
-                    height: _app.appVerticalPadding(2.0),
-                  ),
                   const Text(
                     'Allocation',
                     style: TextStyle(
@@ -487,6 +494,8 @@ class _EditTaskState extends State<EditTask> {
                   allocatedTo.isEmpty
                       ? TextButton(
                           onPressed: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            
                             await _fetchContacts();
                             await showContacts(context)
                                 .then((value) { 
@@ -511,25 +520,31 @@ class _EditTaskState extends State<EditTask> {
                           ))
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(20),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: allocatedTo.length,
                               itemBuilder: (ctx, i) {
                                 return allocatedTo
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595)),
+                                        SizedBox(width: 10.0,),
+                                        
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
 
-                  SizedBox(
-                    height: _app.appVerticalPadding(2.0),
-                  ),
                   const Text(
                     'Reference',
                     style: TextStyle(
@@ -543,6 +558,8 @@ class _EditTaskState extends State<EditTask> {
                   reference.isEmpty
                       ? TextButton(
                           onPressed: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            
                             await _fetchContacts();
                             await showContacts(context)
                                 .then((value) {
@@ -567,18 +584,27 @@ class _EditTaskState extends State<EditTask> {
                           ))
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(50),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: reference.length,
                               itemBuilder: (ctx, i) {
                                 return reference
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595)),
+                                        SizedBox(width: 10.0,),
+                                        
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
@@ -693,7 +719,7 @@ class _EditTaskState extends State<EditTask> {
                           ],
                         ),
                         decoration: BoxDecoration(
-                            color: greyColour,
+                            border: Border.all(color: const Color(0xff297687)),
                             borderRadius: BorderRadius.circular(15)),
                       )),
                   SizedBox(
@@ -750,7 +776,7 @@ class _EditTaskState extends State<EditTask> {
                                   Color(0xff205072),
                                   Color(0xff2E8C92)
                                 ]),
-                                borderRadius: BorderRadius.circular(15)),
+                                borderRadius: BorderRadius.circular(buttonRadius)),
                           ))
                 ],
               ),

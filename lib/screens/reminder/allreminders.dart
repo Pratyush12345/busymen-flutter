@@ -1,5 +1,6 @@
 import 'package:Busyman/provider/reminderprovider.dart';
 import 'package:Busyman/screens/reminder/reminderwidget.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -76,12 +77,12 @@ class _AllRemindersState extends State<AllReminders>
                     end: Alignment.bottomRight,
                     colors: const [Color(0xff205072), Color(0xff329D9C)])),
             width: MediaQuery.of(context).size.width,
-            height: _app.appHeight(18),
+            height: _app.appHeight(20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: _app.appVerticalPadding(3.6),
+                  height: _app.appVerticalPadding(6.0),
                 ),
                 Center(
                   child: Padding(
@@ -91,7 +92,7 @@ class _AllRemindersState extends State<AllReminders>
                       children: [
                         const Text.rich(
                           TextSpan(
-                            text: 'Work Log',
+                            text: 'Reminders',
                             style: TextStyle(
                                 fontSize: 19,
                                 color: Colors.white,
@@ -107,9 +108,22 @@ class _AllRemindersState extends State<AllReminders>
                                   onPressed: () async {
                                     DateTime? selectedDate =
                                         await showDatePicker(
+                                            builder: (BuildContext context, Widget? child) {
+                                            return Theme(
+                                               data: ThemeData.light().copyWith(
+                                                  primaryColor: bluetextColour,
+                                                  accentColor:bluetextColour ,
+                                                  colorScheme: ColorScheme.light(primary: bluetextColour),
+                                                  buttonTheme: ButtonThemeData(
+                                                    textTheme: ButtonTextTheme.primary
+                                                  ),
+                                              ),
+                                              child: child!
+                                            );
+                                          },
                                             context: context,
                                             initialDate: DateTime.now(),
-                                            firstDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
                                             lastDate: DateTime(2050));
                                     if (selectedDate != null) {
                                       setState(() {
@@ -120,7 +134,7 @@ class _AllRemindersState extends State<AllReminders>
                                       });
                                     }
                                   },
-                                  child: Row(
+                                  child: Row( 
                                     children: [
                                       Text(formatter.format(currentDay!),
                                           style: const TextStyle(
@@ -136,13 +150,13 @@ class _AllRemindersState extends State<AllReminders>
                                     ],
                                   ),
                                 ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Image(
-                                      image: AssetImage(
-                                          'assets/icons/reminder.png'),
-                                      color: Colors.white,
-                                    ))
+                                // IconButton(
+                                //     onPressed: () {},
+                                //     icon: const Image(
+                                //       image: AssetImage(
+                                //           'assets/icons/reminder.png'),
+                                //       color: Colors.white,
+                                //     ))
                               ]),
                         )
                       ],
@@ -151,9 +165,10 @@ class _AllRemindersState extends State<AllReminders>
                 ),
                 Expanded(
                   child: TabBar(
+                      indicatorPadding: EdgeInsets.only(bottom: 4.0),
                       controller: _controller,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicatorColor: const Color(0xff205072),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: Colors.white,
                       labelPadding: const EdgeInsets.symmetric(horizontal: 5),
                       tabs: [
                         Tab(

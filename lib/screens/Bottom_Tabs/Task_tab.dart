@@ -45,7 +45,7 @@ class _TaskTabState extends State<TaskTab> {
     
     return Column(
         children: [
-          TopView(),
+          TopView(headername: "Work Log",),
           SizedBox(
             height: _app.appVerticalPadding(5.5),
           ),

@@ -8,6 +8,7 @@ import 'package:Busyman/screens/test_screen.dart';
 import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -21,25 +22,61 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   late App _app;
   
-  
-  Widget getRow(IconData icon,String labeltext, String text){
+  Widget getRowSvg(String path,String labeltext, String text){
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
      children: [
        Expanded(
          flex: 1,
-         child: Icon(icon, color: blueColour, size: 28.0,)),
+         child: SvgPicture.asset(
+                    "$path",
+                    color: blueColour,
+                    width: 20.0,
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(2.0),
+                        child: const CircularProgressIndicator()),
+                  ),  
+         ),
        SizedBox(width: 24.0),
        Expanded(
          flex: 5,
          child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
            children: [
-             Text(labeltext, style: TextStyle(fontSize: 18.0, color: Colors.grey),),
+             Text(labeltext, style: TextStyle(fontSize: 15.0, color: Colors.grey),),
              SizedBox(
-                      height: _app.appVerticalPadding(1.0),
+                      height: _app.appVerticalPadding(1.3),
                     ),
-             Text(text, style: TextStyle(fontSize: 18.0,),),
+             Text(text, style: TextStyle(fontSize: 17.0,),),
+             SizedBox(
+                      height: _app.appVerticalPadding(3.5),
+                    ),
+           ],
+         ),
+       )
+     ],
+    );
+  }
+
+  Widget getRow(IconData icon,String labeltext, String text){
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+     children: [
+       Expanded(
+         flex: 1,
+         child: Icon(icon, color: blueColour, size: 26.0,
+         )),
+       SizedBox(width: 24.0),
+       Expanded(
+         flex: 5,
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Text(labeltext, style: TextStyle(fontSize: 15.0, color: Colors.grey),),
+             SizedBox(
+                      height: _app.appVerticalPadding(1.3),
+                    ),
+             Text(text, style: TextStyle(fontSize: 17.0,),),
              SizedBox(
                       height: _app.appVerticalPadding(3.5),
                     ),
@@ -112,11 +149,15 @@ class _ProfileTabState extends State<ProfileTab> {
                  model.usermodel!.name.isEmpty? AppConstant.noDataFound("Please Add Your Profile") :
                  Column(
                   children: [
-                   getRow(Icons.supervised_user_circle_outlined, "Name", model.usermodel!.name), 
+                   getRow(Icons.perm_identity, "Name", model.usermodel!.name), 
                    getRow(Icons.location_searching_outlined , "Position", model.usermodel!.positionName),
-                   getRow(Icons.phone_in_talk_outlined, "Phone Number", model.usermodel!.phoneNumber),
+                   getRow(Icons.phone_outlined, "Phone Number", model.usermodel!.phoneNumber),
+                   
+                   //getRowSvg("assets/svg/phone.svg", "Phone Number", model.usermodel!.phoneNumber),
                    getRow(Icons.location_on_outlined, "Office Address", model.usermodel!.officeAddress),
                    getRow(Icons.home_outlined, "Local Address" , model.usermodel!.localAddress),
+                   
+                   //getRowSvg("assets/svg/local-address.svg", "Local Address" , model.usermodel!.localAddress),
                    SizedBox(height: 40.0,),
                   ],
                 ),

@@ -4,7 +4,9 @@ import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/BeforeI
 import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/imagefull_show.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/tasks/taskfilters.dart';
+import 'package:Busyman/services/AddressCaluclator.dart';
 import 'package:Busyman/services/appColor.dart';
+import 'package:Busyman/services/date_to_str.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
@@ -31,10 +33,9 @@ class _TaskDetailState extends State<TaskDetail> {
   DateFormat formatter = DateFormat('dd MMM, yyyy');
   String nameText = "";
   String descriptionText = "";
-  List<Contact>? _contacts;
   Map<String, Color> _filtercolour = {
     "Political" :const Color(0xff81B4FE),
-    "Ward": const Color(0xff81B4FE),
+    "Ward": const Color(0xffd1b3ff),
     "Work": const Color(0xffFEB765),
     "Business":const Color(0xff5CC581),
     "Extra" : const Color(0xffFF866B)
@@ -42,7 +43,8 @@ class _TaskDetailState extends State<TaskDetail> {
   bool isLoading = false;
   bool _permissionDenied = false;
   bool initial = true;
-  String location = "", currentdateTime = ""; 
+  double lat = 0.0, long = 0.0;
+  String location = "", address = "", currentdateTime = ""; 
   @override
     void initState() {
       AllTaskVM.instance.init();
@@ -60,7 +62,14 @@ class _TaskDetailState extends State<TaskDetail> {
       allocatedTo = task.allocatedTo;
       reference = task.reference;
       currentdateTime = task.currentDateTime;
-      location = task.location;
+      location = task.location.trim();
+      lat = double.parse(location.split(",")[0].trim());
+      long = double.parse(location.split(",")[1].trim());
+      AddressCalculator(lat, long).getLocation().then((value)
+      {
+        address = value;
+        setState(() {});
+      });
       int count = 0;
       print("---------------");
       print(task.imageUrlList);
@@ -113,7 +122,10 @@ class _TaskDetailState extends State<TaskDetail> {
         elevation: 0,
       ),
       body: SafeArea(
+        
           child: ListView(
+        padding: const EdgeInsets.all(12.0),
+            
         children: [
          Text(
             "$nameText",
@@ -123,133 +135,139 @@ class _TaskDetailState extends State<TaskDetail> {
                 fontSize: 20),
           ),
           SizedBox(
-            height: _app.appVerticalPadding(1.0),
+            height: _app.appVerticalPadding(2.0),
           ),
           Text(
             "$descriptionText",
             style: TextStyle(
                 color: Color(0xff858585),
                 fontWeight: FontWeight.w400,
-                fontSize: 14),
+                fontSize: 16),
           ),
           SizedBox(
-            height: _app.appVerticalPadding(1.0),
+            height: _app.appVerticalPadding(3.0),
           ),
-          const Text(
-                    'Category',
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xff959595)),
-                  ),
                   
-          FilterChip(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            backgroundColor: _filtercolour[category],
-            label:
-                 Text('$category', style: TextStyle(color: Colors.white)),
-            selectedColor: Colors.purpleAccent,
-            onSelected: (bool selected) {},
-            elevation: 6,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: FilterChip(
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              backgroundColor: _filtercolour[category],
+              label:
+                   Text('$category', style: TextStyle(color: Colors.white)),
+              selectedColor: Colors.purpleAccent,
+              onSelected: (bool selected) {},
+              elevation: 6,
+            ),
           ),
           SizedBox(
             height: _app.appVerticalPadding(3.0),
           ),
-          Row(
-            children: [
-              Icon(Icons.arrow_forward_ios),
-              Icon(Icons.arrow_forward_ios),
-              SizedBox(
-                width: _app.appHorizontalPadding(2),
-              ),
-              Text("Created On"),
-              Text("${currentdateTime}"),
-              Text("12:00 pm"),
-            ],
-          ),
+          const Text("Work", style: TextStyle(
+            color: Color(0xff959595)
+          ),),
           SizedBox(
-            height: _app.appVerticalPadding(0.5),
-          ),
-          Row(
-            children: [
-              const Icon(Icons.arrow_forward_ios),
-              const Icon(Icons.arrow_forward_ios),
-              SizedBox(
-                width: _app.appHorizontalPadding(2),
-              ),
-              const Text("Created at"),
-              Text("$location"),
-              const Text("12:00 pm"),
-            ],
-          ),
-          SizedBox(
-            height: _app.appVerticalPadding(3.0),
-          ),
-          const Text("Work"),
+                    height: _app.appVerticalPadding(1.5),
+                  ),
           workingFor.isEmpty
                       ? const Text("No Contact Selected")
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(20),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: workingFor.length,
                               itemBuilder: (ctx, i) {
                                 return workingFor
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595),),
+                                        SizedBox(width: 10.0,),
+                                        
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
+          const Text("Allocation",style: TextStyle(
+            color: Color(0xff959595)
+          ),),
+          
           SizedBox(
-            height: _app.appVerticalPadding(2.0),
-          ),
-          const Text("Allocation"),
+                    height: _app.appVerticalPadding(1.5),
+                  ),
           allocatedTo.isEmpty
                       ? const Text("No Contact Selected")
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(20),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: allocatedTo.length,
                               itemBuilder: (ctx, i) {
                                 return allocatedTo
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595),),
+                                        SizedBox(width: 10.0,),
+                                        
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
+       
+        const Text("Reference",style: TextStyle(
+            color: Color(0xff959595)
+          ),),
         SizedBox(
-            height: _app.appVerticalPadding(2.0),
-          ),
-        const Text("Reference"),
-                          
+                    height: _app.appVerticalPadding(1.5),
+                  ),                  
         reference.isEmpty
                       ? const Text("No Contact Selected")
                       : SizedBox(
                           height: _app.appHeight(10),
-                          width: _app.appWidth(50),
+                          width: _app.appWidth(70),
                           child: ListView.builder(
                               itemCount: reference.length,
                               itemBuilder: (ctx, i) {
                                 return reference
-                                    .map((e) => Text(
-                                          e,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff2E2E2E)),
-                                        ))
+                                    .map((e) => Row(
+                                      children: [
+                                        Icon(Icons.perm_identity,
+                                        color: Color(0xff959595)),
+                                        SizedBox(width: 10.0,),
+                                        
+                                        Text(
+                                              e.replaceAll("\n"," "),
+                                              overflow: TextOverflow.ellipsis,
+                                              
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff2E2E2E)),
+                                            ),
+                                      ],
+                                    ))
                                     .toList()[i];
                               }),
                         ),
@@ -290,10 +308,67 @@ class _TaskDetailState extends State<TaskDetail> {
                      
                     ).toList() ,);
                     else
-                    return SizedBox();
+                    return SizedBox(
+                      height: _app.appHeight(5),
+                      child: Center(
+                        child: Text("No Photos attached",
+                        style: TextStyle(
+                          fontSize: 16.0
+                        ),),
+                      ),
+                    );
                     }
                   ),
-                   
+         SizedBox(
+            height: _app.appVerticalPadding(5),
+          ),         
+         Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.timer,
+              color: Color(0xff959595)),
+              SizedBox(
+                width: _app.appHorizontalPadding(2),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text("Created On")),
+              Expanded(
+                flex: 3,
+                child: Text(" ${DateToStr.instance.datetostr(currentdateTime)}  ${DateToStr.instance.datetoTime(currentdateTime)}")),
+            
+            ],
+          ),
+          SizedBox(
+            height: _app.appVerticalPadding(0.5),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.location_on_outlined,
+              color: Color(0xff959595)),
+              SizedBox(
+                width: _app.appHorizontalPadding(2),
+              ),
+              Expanded(
+                flex: 1,
+                child: const Text("Created at")),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  width: _app.appWidth(60),
+                  height: _app.appHeight(10),
+                  child: Text("${address}",
+                  maxLines: 2,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: _app.appVerticalPadding(3.0),
+          ),
+                    
         ],
       )),
     );

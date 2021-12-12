@@ -62,7 +62,7 @@ class _FiltersState extends State<Filters> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           selected: selectedFilters[1],
-          backgroundColor: const Color(0xff81B4FE),
+          backgroundColor: const Color(0xffd1b3ff),
           label: const Text('Ward',
               style: TextStyle(color: Colors.white, fontSize: 10)),
           selectedColor: const Color(0xff205072),

@@ -1,5 +1,6 @@
 import 'package:Busyman/models/reminder.dart';
 import 'package:Busyman/provider/reminderprovider.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/notification_service.dart';
 import 'package:Busyman/services/random_string.dart';
 import 'package:Busyman/services/sizeconfig.dart';
@@ -93,6 +94,19 @@ class _AddReminderState extends State<AddReminder> {
                             onPressed: () async {
                               String text;
                               DateTime? selectedDate = await showDatePicker(
+                                  builder: (BuildContext context, Widget? child) {
+                                            return Theme(
+                                              data: ThemeData.light().copyWith(
+                                                  primaryColor: bluetextColour,
+                                                  accentColor:bluetextColour ,
+                                                  colorScheme: ColorScheme.light(primary: bluetextColour),
+                                                  buttonTheme: ButtonThemeData(
+                                                    textTheme: ButtonTextTheme.primary
+                                                  ),
+                                              ),
+                                              child: child!
+                                            );
+                                          },
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
@@ -119,10 +133,23 @@ class _AddReminderState extends State<AddReminder> {
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                                 builder: (context, childWidget) {
-                                  return MediaQuery(
-                                      data: MediaQuery.of(context).copyWith(
-                                          alwaysUse24HourFormat: false),
-                                      child: childWidget!);
+                                  return Theme(
+                                              data: ThemeData.light().copyWith(
+                                                  primaryColor: bluetextColour,
+                                                  accentColor:bluetextColour ,
+                                                  colorScheme: ColorScheme.light(primary: bluetextColour),
+                                                  buttonTheme: ButtonThemeData(
+                                                    textTheme: ButtonTextTheme.primary
+                                                  ),
+                                              ),
+                                              child: childWidget!
+                                            );
+                                  // return MediaQuery(
+                                      
+                                  //     data: MediaQuery.of(context).copyWith(
+                                          
+                                  //         alwaysUse24HourFormat: false),
+                                  //     child: childWidget!);
                                 });
 
                             if (time != null) {
@@ -215,7 +242,7 @@ class _AddReminderState extends State<AddReminder> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        category = 'Invitaion';
+                        category = 'Invitation';
                         categorySelected[0] = false;
                         categorySelected[1] = !categorySelected[1];
                         categorySelected[2] = false;
@@ -425,7 +452,7 @@ class _AddReminderState extends State<AddReminder> {
                               Color(0xff205072),
                               Color(0xff2E8C92)
                             ]),
-                            borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(buttonRadius)),
                       ))
                 ],
               ),

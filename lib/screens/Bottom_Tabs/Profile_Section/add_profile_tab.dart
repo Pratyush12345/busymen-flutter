@@ -2,6 +2,7 @@
 import 'package:Busyman/models/models.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/profile_tab_vm.dart';
+import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -141,13 +142,13 @@ class _AddProfileTabState extends State<AddProfileTab> {
                         height: _app.appVerticalPadding(3.0),
                       ),    
                   SizedBox(
-                        height: _app.appVerticalPadding(3.0),
+                        height: _app.appVerticalPadding(9.0),
                       ),
                   ],
               ),
             ),
           ),
-          TextButton(
+          TextButton(        
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           UserDetailModel model = UserDetailModel(
@@ -163,10 +164,10 @@ class _AddProfileTabState extends State<AddProfileTab> {
                         }
                       },
                       child: Container(
-                        width: double.infinity * 0.8,
+                        width: _app.appWidth(90),
                         height: 40,
                         child: const Center(
-                          child: const Text("Done",
+                          child: const Text("Save",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -178,7 +179,7 @@ class _AddProfileTabState extends State<AddProfileTab> {
                               Color(0xff205072),
                               Color(0xff2E8C92)
                             ]),
-                            borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(buttonRadius)),
                       ))        
                     
                   

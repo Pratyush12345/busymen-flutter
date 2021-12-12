@@ -73,7 +73,7 @@ class DashboardVM{
   try {
     print("Fetching follower data");
     PaginatedUsers paginatedUsers;
-    if(GlobalVariable.accessToken == ""){
+    if(GlobalVariable.twitterApi == null){
       await Future.delayed(Duration(seconds: 3));
     }
     if(isAgain){

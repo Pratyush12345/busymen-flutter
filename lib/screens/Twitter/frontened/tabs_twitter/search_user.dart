@@ -5,6 +5,7 @@ import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:Busyman/services/appColor.dart';
 
 class SearchUser extends StatefulWidget {
   const SearchUser({ Key? key }) : super(key: key);
@@ -22,6 +23,9 @@ class _SearchUserState extends State<SearchUser> {
                 context: context,
                 builder: (ctx) {
                   return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(cornerRadiusTaskWidget)),
+                    
                     title: const Text(
                       'Are You sure, You want to add this user?',
                       style: TextStyle(
@@ -30,21 +34,31 @@ class _SearchUserState extends State<SearchUser> {
                           fontWeight: FontWeight.w400),
                     ),
                     actions: [
-                      ElevatedButton(
+                      MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0,
+                          elevation: 0.0,
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('NO', style: TextStyle(color: blueColour),)),
+                        MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0, 
+                          elevation: 0.0,
+                          
+                          color: blueColour,
                           onPressed: () {
                             DashboardVM.instance.selectFromSearchUsers(model);
                             Navigator.of(ctx).pop();
                             Navigator.of(context).pop();
                             // Navigator.of(context).pop();
-              
-                            },
-                          child: Text('Yes')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('No'))
-                    ],
+              },
+                          child: Text('YES', style: TextStyle(color: Colors.white) )),
+                        
+                    
+                      ],
                   );
                 });
   }
