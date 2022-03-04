@@ -118,8 +118,17 @@ class _AllTasksState extends State<AllTasks> {
                   padding: const EdgeInsets.only(left : 60.0),
                   child: Hero(
                     tag: "Twitter",
-                    child: Image.asset('assets/icons/twitter.png', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
-                ),
+                    //child: Image.asset('assets/icons/twitter.svg', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
+                    child: SvgPicture.asset(
+                    "assets/icons/twitter.svg",
+                    height: 20.0,
+                    color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),
+                    placeholderBuilder: (BuildContext context) => Container(
+                        padding: const EdgeInsets.all(4.0),
+                        child: const CircularProgressIndicator()),
+                    ),
+                  ),
+                  ),
                    label: ''),
              BottomNavigationBarItem(
                 icon: SvgPicture.asset(

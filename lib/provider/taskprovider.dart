@@ -5,8 +5,6 @@ import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTask
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class TaskProvider extends ChangeNotifier {
   List<Task> _tasks = [];
@@ -118,6 +116,7 @@ class TaskProvider extends ChangeNotifier {
         Task task = Task(
           id: data.keys.toList()[i],
           taskName: data.values.toList()[i]['taskName'],
+          isDone: data.values.toList()[i]['isDone'] ?? false,
           description: data.values.toList()[i]['description'],
           workingFor: data.values.toList()[i]['workingFor'] != null
               ? data.values
@@ -159,7 +158,40 @@ class TaskProvider extends ChangeNotifier {
 
     _searchedList = _tasksdup.where((element) => element.taskName.toLowerCase().contains(val.toLowerCase()) ||
     element.description.toLowerCase().contains(val.toLowerCase())).toList();
-
+     
+     if(_searchedList.isEmpty){
+       _searchedList = _tasksdup.where((element){
+         List<String> _dupAllocatedList = element.allocatedTo.where((element) => element.toLowerCase().contains(val.toLowerCase())).toList();
+         if(_dupAllocatedList.isNotEmpty){
+           return true;
+         }   
+         else{
+           return false;
+         }
+      } ).toList();
+     }
+     if(_searchedList.isEmpty){
+       _searchedList = _tasksdup.where((element){
+         List<String> _dupAllocatedList = element.workingFor.where((element) => element.toLowerCase().contains(val.toLowerCase())).toList();
+         if(_dupAllocatedList.isNotEmpty){
+           return true;
+         }   
+         else{
+           return false;
+         }
+      } ).toList();
+     }
+     if(_searchedList.isEmpty){
+       _searchedList = _tasksdup.where((element){
+         List<String> _dupAllocatedList = element.reference.where((element) => element.toLowerCase().contains(val.toLowerCase())).toList();
+         if(_dupAllocatedList.isNotEmpty){
+           return true;
+         }   
+         else{
+           return false;
+         }
+      } ).toList();
+     }
     _tasks.clear();
     _tasks = List.from(_searchedList);
    }else{
@@ -172,7 +204,15 @@ class TaskProvider extends ChangeNotifier {
   onFilter(String val){
    if(val.isNotEmpty){
     List<Task> _searchedList = [];
+    if(val == "Done"){
+    _searchedList = _tasksdup.where((element) => element.isDone).toList();
+    }
+    else if(val == "Undone"){
+    _searchedList = _tasksdup.where((element) => !element.isDone).toList();  
+    }
+    else{
     _searchedList = _tasksdup.where((element) => element.category.contains(val)).toList();
+    }
     _tasks.clear();
     _tasks = List.from(_searchedList);
    }else{

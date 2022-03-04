@@ -1,6 +1,6 @@
 import 'package:Busyman/provider/taskprovider.dart';
 import 'package:Busyman/screens/tasks/alltaskstopwidget.dart';
-import 'package:Busyman/screens/tasks/taskfilters.dart';
+import 'package:Busyman/screens/tasks/taskFilterHomePage.dart';
 import 'package:Busyman/screens/tasks/taskwidget1.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
@@ -51,14 +51,14 @@ class _TaskTabState extends State<TaskTab> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Filters(
+            child: HomePageFilters(
               callback: (val) {
                 taskProvider.onFilter(val);
               }, isedit: false,
             ),
           ),
           SizedBox(
-            height: _app.appVerticalPadding(2.5),
+            height: _app.appVerticalPadding(0.0),
           ),
           isLoading
               ? const Center(

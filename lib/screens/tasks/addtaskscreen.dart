@@ -11,11 +11,9 @@ import 'package:Busyman/services/appString.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:location/location.dart';
-import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AddTask extends StatefulWidget {
@@ -41,28 +39,37 @@ class _AddTaskState extends State<AddTask> {
   DateFormat formatter = DateFormat('dd MMM, yyyy');
   List<Contact>? _contacts;
   bool isLoading = false;
-  bool _permissionDenied = false;
-
+  bool _permissionDenied = false, isokPressed = false ;
+  List<Contact> contacts = [];
+  
   Future _fetchContacts() async {
     bool getPermission =
         await FlutterContacts.requestPermission(readonly: true);
     if (!getPermission) {
       setState(() => _permissionDenied = true);
     } else {
-      final contacts = await FlutterContacts.getContacts();
+      
+      if(contacts.isEmpty)
+      contacts = await FlutterContacts.getContacts();
       setState(() => _contacts = contacts);
     }
   }
 
-  Future<List<String>> showContacts(BuildContext context) async {
+  Future<List<String>> showContacts(BuildContext context, List<String> nameList) async {
     Map<String, bool> contacts = {};
     Map<String, bool> contactscopy = {};
     List<String> contact = [];
+    isokPressed = false;
+
     _contacts?.forEach((val) {
+      if(nameList.indexWhere((element) => element.trim().toLowerCase() == val.displayName.trim().toLowerCase())==-1)
       contacts[val.displayName] = false;
+      else
+      contacts[val.displayName] = true;
     });
+
     contactscopy = contacts;
-    showDialog(
+    await showDialog(
       context: context,
       builder: (ctx) {
         return StatefulBuilder(builder: (context, setState) {
@@ -81,7 +88,7 @@ class _AddTaskState extends State<AddTask> {
                         contact.add(key);
                       }
                     });
-
+                    isokPressed = true;
                     Navigator.of(ctx).pop();
                     // Navigator.of(context).pop();
                   },
@@ -187,6 +194,7 @@ class _AddTaskState extends State<AddTask> {
   @override
     void initState() {
       AllTaskVM.instance.init();
+      contacts = [];
       super.initState();
     }
   @override
@@ -442,7 +450,7 @@ class _AddTaskState extends State<AddTask> {
                           onPressed: () async {
                             FocusManager.instance.primaryFocus!.unfocus();
                             await _fetchContacts();
-                            await showContacts(context)
+                            await showContacts(context, [])
                                 .then((value){ 
                                   workingFor = value;                                
                                   setState(() {});
@@ -461,33 +469,46 @@ class _AddTaskState extends State<AddTask> {
                                     Border.all(color: const Color(0xff297687)),
                                 borderRadius: BorderRadius.circular(12)),
                           ))
-                      : SizedBox(
-                          height: _app.appHeight(10),
-                          width: _app.appWidth(70),
-                          child: ListView.builder(
-                              itemCount: workingFor.length,
-                              itemBuilder: (ctx, i) {
-                                return workingFor
-                                    .map((e) => Row(
-                                      children: [
-                                        Icon(Icons.perm_identity,
-                                        color: Color(0xff959595)),
-                                        SizedBox(width: 10.0,),
-                                        
-                                        Text(
-                                              e.replaceAll("\n"," "),
-                                              overflow: TextOverflow.ellipsis,
-                                              
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff2E2E2E)),
-                                            ),
-                                      ],
-                                    ))
-                                    .toList()[i];
-                              }),
-                        ),
+                      :InkWell(
+                         onTap: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            
+                            await _fetchContacts();
+                            await showContacts(context, workingFor).then((value) {
+                              if(value.isNotEmpty || isokPressed)
+                              workingFor = value;    
+                              setState(() { });
+                            });
+                            
+                          },
+                         child: SizedBox(
+                            height: _app.appHeight(10),
+                            width: _app.appWidth(70),
+                            child: ListView.builder(
+                                itemCount: workingFor.length,
+                                itemBuilder: (ctx, i) {
+                                  return workingFor
+                                      .map((e) => Row(
+                                        children: [
+                                          Icon(Icons.perm_identity,
+                                          color: Color(0xff959595)),
+                                          SizedBox(width: 10.0,),
+                                          
+                                          Text(
+                                                e.replaceAll("\n"," "),
+                                                overflow: TextOverflow.ellipsis,
+                                                
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff2E2E2E)),
+                                              ),
+                                        ],
+                                      ))
+                                      .toList()[i];
+                                }),
+                          ),
+                      ),
                   const Text(
                     'Allocation',
                     style: TextStyle(
@@ -503,7 +524,7 @@ class _AddTaskState extends State<AddTask> {
                           onPressed: () async {
                             FocusManager.instance.primaryFocus!.unfocus();
                             await _fetchContacts();
-                            await showContacts(context)
+                            await showContacts(context, [])
                                 .then((value) { 
                                     allocatedTo = value;
                                     
@@ -524,33 +545,46 @@ class _AddTaskState extends State<AddTask> {
                                     Border.all(color: const Color(0xff297687)),
                                 borderRadius: BorderRadius.circular(12)),
                           ))
-                      : SizedBox(
-                          height: _app.appHeight(10),
-                          width: _app.appWidth(70),
-                          child: ListView.builder(
-                              itemCount: allocatedTo.length,
-                              itemBuilder: (ctx, i) {
-                                return allocatedTo
-                                    .map((e) => Row(
-                                      children: [
-                                        Icon(Icons.perm_identity,
-                                        color: Color(0xff959595)),
-                                        SizedBox(width: 10.0,),
-                                        
-                                        Text(
-                                              e.replaceAll("\n"," "),
-                                              overflow: TextOverflow.ellipsis,
-                                              
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff2E2E2E)),
-                                            ),
-                                      ],
-                                    ))
-                                    .toList()[i];
-                              }),
-                        ),
+                      : InkWell(
+                         onTap: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            
+                            await _fetchContacts();
+                            await showContacts(context, allocatedTo)
+                                .then((value){
+                                  if(value.isNotEmpty || isokPressed) 
+                                    allocatedTo = value;
+                                    setState(() { });
+                                });
+                          },
+                        child: SizedBox(
+                            height: _app.appHeight(10),
+                            width: _app.appWidth(70),
+                            child: ListView.builder(
+                                itemCount: allocatedTo.length,
+                                itemBuilder: (ctx, i) {
+                                  return allocatedTo
+                                      .map((e) => Row(
+                                        children: [
+                                          Icon(Icons.perm_identity,
+                                          color: Color(0xff959595)),
+                                          SizedBox(width: 10.0,),
+                                          
+                                          Text(
+                                                e.replaceAll("\n"," "),
+                                                overflow: TextOverflow.ellipsis,
+                                                
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff2E2E2E)),
+                                              ),
+                                        ],
+                                      ))
+                                      .toList()[i];
+                                }),
+                          ),
+                      ),
                   const Text(
                     'Reference',
                     style: TextStyle(
@@ -566,7 +600,7 @@ class _AddTaskState extends State<AddTask> {
                           onPressed: () async {
                             FocusManager.instance.primaryFocus!.unfocus();
                             await _fetchContacts();
-                            await showContacts(context)
+                            await showContacts(context, [])
                                 .then((value) {
                                       reference = value;
                                  
@@ -587,33 +621,45 @@ class _AddTaskState extends State<AddTask> {
                                     Border.all(color: const Color(0xff297687)),
                                 borderRadius: BorderRadius.circular(12)),
                           ))
-                      : SizedBox(
-                          height: _app.appHeight(10),
-                          width: _app.appWidth(70),
-                          child: ListView.builder(
-                              itemCount: reference.length,
-                              itemBuilder: (ctx, i) {
-                                return reference
-                                    .map((e) => Row(
-                                      children: [
-                                        Icon(Icons.perm_identity,
-                                        color: Color(0xff959595)),
-                                        SizedBox(width: 10.0,),
-                                        
-                                        Text(
-                                              e.replaceAll("\n"," "),
-                                              overflow: TextOverflow.ellipsis,
-                                              
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff2E2E2E)),
-                                            ),
-                                      ],
-                                    ))
-                                    .toList()[i];
-                              }),
-                        ),
+                      : InkWell(
+                         onTap: () async {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            await _fetchContacts();
+                            await showContacts(context, reference)
+                                .then((value){ 
+                                 if(value.isNotEmpty || isokPressed)
+                                    reference = value;
+                                    setState(() { });
+                            });
+                          },
+                        child: SizedBox(
+                            height: _app.appHeight(10),
+                            width: _app.appWidth(70),
+                            child: ListView.builder(
+                                itemCount: reference.length,
+                                itemBuilder: (ctx, i) {
+                                  return reference
+                                      .map((e) => Row(
+                                        children: [
+                                          Icon(Icons.perm_identity,
+                                          color: Color(0xff959595)),
+                                          SizedBox(width: 10.0,),
+                                          
+                                          Text(
+                                                e.replaceAll("\n"," "),
+                                                overflow: TextOverflow.ellipsis,
+                                                
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff2E2E2E)),
+                                              ),
+                                        ],
+                                      ))
+                                      .toList()[i];
+                                }),
+                          ),
+                      ),
                   SizedBox(
                     height: _app.appVerticalPadding(2.0),
                   ),
@@ -700,6 +746,7 @@ class _AddTaskState extends State<AddTask> {
                           Task task = Task(
                               id: UniqueKey().toString(),
                               taskName: _namecontroller.text,
+                              isDone: false,
                               description: _descriptioncontroller.text,
                               workingFor: workingFor,
                               allocatedTo: allocatedTo,

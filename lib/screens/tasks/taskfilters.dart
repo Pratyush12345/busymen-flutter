@@ -135,7 +135,7 @@ class _FiltersState extends State<Filters> {
             });
           },
           elevation: 6,
-        ),
+        ), 
         FilterChip(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

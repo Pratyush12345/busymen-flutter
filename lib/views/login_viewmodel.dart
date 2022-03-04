@@ -10,7 +10,7 @@ class LoginVM {
   late String verificationID;
   bool codeSent = false;
 
-  verifyPhone(context, String phoneNoWithCountryCode) async {
+  verifyPhone(context, String phoneNoWithCountryCode, int forceResend) async {
     final PhoneVerificationCompleted verfiySuccess =
         (AuthCredential cred) async {
       print("vvvvvvvvvvvvvvvv");
@@ -45,6 +45,7 @@ class LoginVM {
         verificationCompleted: verfiySuccess,
         verificationFailed: verifyFailure,
         codeSent: smsCodeSent,
+        forceResendingToken: forceResend,
         codeAutoRetrievalTimeout: autoRetrieve);
   }
 

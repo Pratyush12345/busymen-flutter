@@ -2,11 +2,11 @@ import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:Busyman/views/login_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+  final String? phoneNumber; 
+  OtpScreen({@required this.phoneNumber, Key? key}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -16,7 +16,7 @@ class _OtpScreenState extends State<OtpScreen> {
   final _pinPutController = TextEditingController();
 
   final _pinPutFocusNode = FocusNode();
-
+  int count = 0;
   bool keyboard = false;
   bool _showIndicator = false;
 
@@ -89,29 +89,34 @@ class _OtpScreenState extends State<OtpScreen> {
                   SizedBox(
                     height: _app.appHeight(5),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text(
-                        'No Otp ',
-                        style: TextStyle(
-                          color: Color(0xff959595),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                   InkWell(
+                    onTap: () {
+                         count++;
+                         LoginVM.instance.verifyPhone(
+                              context, '+91' + widget.phoneNumber!, count); 
+                         setState(() { });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          count==0?'No Otp ' : "",
+                          style: TextStyle(
+                            color: Color(0xff959595),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Resend it!',
+                        Text(
+                          count==0? 'Resend it!' : "OTP Resent!",
                           style: TextStyle(
                             color: Color(0xff297687),
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    )
                   ),
                   SizedBox(
                     height: _app.appHeight(10),

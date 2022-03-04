@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Busyman/screens/No_internet/connectivity_wrapper.dart';
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings, {String? phoneNumber}) {
     // Getting arguments passed in while calling Navigator.pushNamed
     late final args = settings.arguments;
 
@@ -35,7 +35,7 @@ class RouteGenerator {
       case '/AddReminder':
         return MaterialPageRoute(builder: (_) => const AddReminder());  
       case '/otp':
-        return MaterialPageRoute(builder: (_) => const OtpScreen());
+        return MaterialPageRoute(builder: (_) => OtpScreen(phoneNumber: args! as String ,));
       case '/EditTask':
         return MaterialPageRoute(
             builder: (_) => EditTask(

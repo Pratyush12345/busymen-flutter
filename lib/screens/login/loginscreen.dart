@@ -83,8 +83,8 @@ class _LogInScreenState extends State<LogInScreen> {
                       onPressed: () {
                         if (_mobileController.text.length == 10) {
                           LoginVM.instance.verifyPhone(
-                              context, '+91' + _mobileController.text);
-                          Navigator.of(context).pushNamed('/otp');
+                              context, '+91' + _mobileController.text, 0);
+                          Navigator.of(context).pushNamed('/otp', arguments: _mobileController.text );
                         } else {
                           setState(() {
                             _numberlengtherror = true;

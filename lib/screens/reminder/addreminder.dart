@@ -170,7 +170,7 @@ class _AddReminderState extends State<AddReminder> {
                                         time.minute.toString() +
                                         ' ' +
                                         'am';
-                              }
+                              } 
                             }
                           },
                           icon: const Icon(Icons.watch_later)),

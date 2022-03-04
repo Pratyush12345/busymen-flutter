@@ -9,6 +9,7 @@ class Task {
   // String startTime;
   // String endDate;
   // String endTime;
+  bool isDone;
   String category;
   List<String> workingFor;
   List<String> allocatedTo;
@@ -23,6 +24,7 @@ class Task {
       {required this.id,
       required this.allocatedTo,
       required this.category,
+      required this.isDone,
       required this.description,
       required this.reference,
       required this.taskName,
@@ -37,6 +39,7 @@ class Task {
     // final jsonallocation = jsonEncode(this.workingFor);
     data['taskName'] = this.taskName;
     data['description'] = this.description;
+    data['isDone'] = this.isDone;
     data['reference'] = this.reference;
     data['category'] = this.category;
     data['workingFor'] = workingFor;

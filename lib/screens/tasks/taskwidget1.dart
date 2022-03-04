@@ -2,6 +2,8 @@ import 'package:Busyman/models/task.dart';
 import 'package:Busyman/provider/taskprovider.dart';
 import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/date_to_str.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,52 @@ class _TaskWidgetState extends State<TaskWidget> {
     "Business":const Color(0xff5CC581),
     "Extra" : const Color(0xffFF866B)
   };
+
+  void showIsDoneDialog(String msg, bool _isDone){
+     showDialog(
+                context: context,
+                builder: (ctx) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(cornerRadiusTaskWidget)),
+                    
+                    title: Text(
+                      '${msg}',
+                      style: TextStyle(
+                          color: Color(0xff2E2E2E),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    actions: [
+                      MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0,
+                          elevation: 0.0,
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('NO', style: TextStyle(color: blueColour),)),
+                        MaterialButton(
+                          height: 45.0,
+                          minWidth: 100.0, 
+                          elevation: 0.0,
+                          
+                          color: blueColour,
+                          onPressed: () async{
+                           widget.task?.isDone = _isDone;
+                           setState(() {});
+                           FirebaseDatabase.instance.reference().child("Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/${widget.task?.id}").update({"isDone": _isDone});
+                           Navigator.of(context).pop();   
+                          },
+                          child: Text('YES', style: TextStyle(color: Colors.white) )),
+                        
+                  
+                    ],
+                  );
+                });
+  }
+
   @override
   Widget build(BuildContext context) {
     final taskprovider = Provider.of<TaskProvider>(context, listen: false);
@@ -157,10 +205,39 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
           ),
           trailing: Container(
-            width: 4,
+            width: 60,
             height: 40,
-            decoration: BoxDecoration(
-                color: _filtercolour[widget.task!.category], borderRadius: BorderRadius.circular(10)),
+                  
+            child: Row(
+              children: [
+                AnimatedSwitcher(duration: Duration(milliseconds: 500),
+                switchInCurve: Curves.fastLinearToSlowEaseIn,
+                switchOutCurve: Curves.easeInCubic,
+                child:  !widget.task!.isDone ? InkWell(
+                  key: UniqueKey(),
+                  onTap: (){
+                    showIsDoneDialog("Mark this task as done.", true );
+                    
+                  },
+                  child: Icon(Icons.check_box_outline_blank_rounded)) 
+                  : InkWell(
+                    key: UniqueKey(),
+                    onTap: (){
+                     showIsDoneDialog("Mark this task as undone.", false );
+                    },
+                    child: Icon(Icons.check_circle_outline_outlined, color: Colors.green, )),
+                ),
+                
+                SizedBox(width: 20.0,),
+                
+                Container(
+                  width: 4,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: _filtercolour[widget.task!.category], borderRadius: BorderRadius.circular(10)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
