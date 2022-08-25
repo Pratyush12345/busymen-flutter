@@ -34,3 +34,28 @@ class ConnectivityCheckModel {
   final String status;
   ConnectivityCheckModel({required this.status});
 }
+
+class ManageAccountUserModel {
+  String id;
+  String uid;
+  String phoneNo;
+  String name;
+
+  ManageAccountUserModel({required this.id,required this.uid, required this.phoneNo, required this.name});
+
+  ManageAccountUserModel.fromSnapshot(DataSnapshot snapshot) :
+    id = snapshot.value['id'],
+    uid = snapshot.value['uid'],
+    phoneNo = snapshot.value['phoneNo'],
+    name = snapshot.value['name'];
+  
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['uid'] = this.uid;
+    data['phoneNo'] = this.phoneNo;
+    data['name'] = this.name;
+    return data;
+  }
+}

@@ -1,9 +1,6 @@
 
 import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
-import 'package:Busyman/screens/Twitter/frontened/dashboard.dart';
-import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
-import 'package:Busyman/screens/Twitter/frontened/dashboard_twitter.dart';
 import 'package:Busyman/screens/tasks/alltaskstopwidget.dart';
 import 'package:Busyman/services/appColor.dart';
 import 'package:Busyman/services/sizeconfig.dart';
@@ -13,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_login/twitter_login.dart';
-
 import 'package:dart_twitter_api/twitter_api.dart';
+
 class TwitterSignIn extends StatefulWidget {
   const TwitterSignIn({ Key? key }) : super(key: key);
 
@@ -121,105 +118,107 @@ Future<void> fecthdata() async {
     _app = App(context);
     return Scaffold(
       
-      body: Column(
-        children: [
-          TopView(headername: "Retweets",),
-          
-          SizedBox(
-            height: _app.appVerticalPadding(15),
-          ),
-          Container(
-            height: 110,
-                  width: 110,
-            child: Hero(
-              tag: "Twitter",
-              child: Image.asset(
-                    'assets/images/twitter_logo.png',
-                    fit: BoxFit.contain,
-                    color: Colors.blue,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TopView(headername: "Retweets",),
+            
+            SizedBox(
+              height: _app.appVerticalPadding(15),
+            ),
+            Container(
+              height: 110,
+                    width: 110,
+              child: Hero(
+                tag: "Twitter",
+                child: Image.asset(
+                      'assets/images/twitter_logo.png',
+                      fit: BoxFit.contain,
+                      color: Colors.blue,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 30.0,),
-          Text("Connect With Twitter",
-          style: TextStyle(
-           color: Colors.blue,
-           fontSize: 22.0
-          ),),
-          SizedBox(height: _app.appHeight(31),),
-          TextButton(
-                    onPressed: () {
-                        twitterLogin!.login().then((result) {
-                    
-                    print("-------------------------");
-                    print("status ..................${result.user!.id}");
-                    print("auth token ..............${result.authToken}");
-                    print("authtoken secret.........${result.authTokenSecret}");
-                    GlobalVariable.accessToken = result.authToken!;
-                    GlobalVariable.accessTokenSecret = result.authTokenSecret!;
-                    GlobalVariable.twittedUid = result.user!.id.toString();
-                    print("-------------------------");
-                    switch(result.status){
-                      case TwitterLoginStatus.loggedIn:
-                      final AuthCredential twitterAuthCredential =
-                        TwitterAuthProvider.credential(
-                            accessToken: result.authToken!,
-                            secret: result.authTokenSecret!);
-                        storeUserDetail();
-                        // twitterApi = TwitterApi(
-                        //     client: TwitterClient(
-                        //       consumerKey: "n58AlgPKH47GIWrmR3eH4vE8z",
-                        //       consumerSecret: "vomHhRkABsllgCPRuuqYw6DB5l3pjkBmTRIlAhpE09Mp7ktOSt",
-                        //       token: result.authToken,
-                        //       secret: result.authTokenSecret
-                        //       //token: "620757286-3oB4BkNbGWuj0ycYYaMo1cudUAbfZ54aMEEgelct",
-                        //       //secret: "rsuj1WVUr1m3BOiNlLBlff2vAhLvVioqbKKY1sQl3JHGY",
-                        //     ),
-                        //   );  
+            SizedBox(height: 30.0,),
+            Text("Connect With Twitter",
+            style: TextStyle(
+             color: Colors.blue,
+             fontSize: 22.0
+            ),),
+            SizedBox(height: _app.appHeight(28),),
+            TextButton(
+                      onPressed: () {
+                          twitterLogin!.login().then((result) {
+                      
+                      print("-------------------------");
+                      print("status ..................${result.user!.id}");
+                      print("auth token ..............${result.authToken}");
+                      print("authtoken secret.........${result.authTokenSecret}");
+                      GlobalVariable.accessToken = result.authToken!;
+                      GlobalVariable.accessTokenSecret = result.authTokenSecret!;
+                      GlobalVariable.twittedUid = result.user!.id.toString();
+                      print("-------------------------");
+                      switch(result.status){
+                        case TwitterLoginStatus.loggedIn:
+                        final AuthCredential twitterAuthCredential =
+                          TwitterAuthProvider.credential(
+                              accessToken: result.authToken!,
+                              secret: result.authTokenSecret!);
+                          storeUserDetail();
+                          // twitterApi = TwitterApi(
+                          //     client: TwitterClient(
+                          //       consumerKey: "n58AlgPKH47GIWrmR3eH4vE8z",
+                          //       consumerSecret: "vomHhRkABsllgCPRuuqYw6DB5l3pjkBmTRIlAhpE09Mp7ktOSt",
+                          //       token: result.authToken,
+                          //       secret: result.authTokenSecret
+                          //       //token: "620757286-3oB4BkNbGWuj0ycYYaMo1cudUAbfZ54aMEEgelct",
+                          //       //secret: "rsuj1WVUr1m3BOiNlLBlff2vAhLvVioqbKKY1sQl3JHGY",
+                          //     ),
+                          //   );  
 
-                        //FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
-                        
-                        // then((user) {
-                        //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> TwitterDashboard()));
-                        // } );
-                     break;
-                     case TwitterLoginStatus.cancelledByUser:
-                     print("Twitter Cancelled by user");
-                     break;
-                     
-                     case TwitterLoginStatus.error:
-                     print("Twitter Error Ocurred");
-                     break;
-                     
-                     default: 
-                     print("Default Ocurred");
-                     
-                    }
-                  }).catchError((e){
-                    print(e);
-                  });
-                
-                  },
-                      child: Container(
-                        width: _app.appWidth(85),
-                        height: 45,
-                        child: const Center(
-                          child: const Text("Twitter Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(colors: const [
-                              Color(0xff205072),
-                              Color(0xff2E8C92)
-                            ]),
-                            borderRadius: BorderRadius.circular(buttonRadius)),
-                      )),
-                
-                ],
+                          //FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
+                          
+                          // then((user) {
+                          //   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> TwitterDashboard()));
+                          // } );
+                       break;
+                       case TwitterLoginStatus.cancelledByUser:
+                       print("Twitter Cancelled by user");
+                       break;
+                       
+                       case TwitterLoginStatus.error:
+                       print("Twitter Error Ocurred");
+                       break;
+                       
+                       default: 
+                       print("Default Ocurred");
+                       
+                      }
+                    }).catchError((e){
+                      print(e);
+                    });
+                  
+                    },
+                        child: Container(
+                          width: _app.appWidth(85),
+                          height: 45,
+                          child: const Center(
+                            child: const Text("Twitter Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                          decoration: BoxDecoration(
+                              gradient: const LinearGradient(colors: const [
+                                Color(0xff205072),
+                                Color(0xff2E8C92)
+                              ]),
+                              borderRadius: BorderRadius.circular(buttonRadius)),
+                        )),
+                  
+                  ],
+        ),
       ),
     );
   }

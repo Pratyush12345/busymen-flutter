@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Busyman/models/task.dart';
 import 'package:Busyman/screens/Bottom_Tabs/Profile_Section/Image_upload/AllTaskVM.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,11 +34,17 @@ class TaskProvider extends ChangeNotifier {
   //       .toList();
   // }
 
+  init(){
+   _tasks = [];
+  _tasksdup = [];
+  
+  }
+
   Future<void> addNewTask(Task task) async {
     try {
       final ref = await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/');
+          .child('Users/${GlobalVariable.uid}/Tasks/');
       final ref2 = await ref.push().key;
       task.imageUrlList = await AllTaskVM.instance.getUrlListOfImage(ref2.toString());
       ref.child(ref2.toString()).set(task.toJson());
@@ -57,7 +64,7 @@ class TaskProvider extends ChangeNotifier {
     try {
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/$id')
+          .child('Users/${GlobalVariable.uid}/Tasks/$id')
           .remove();
       AllTaskVM.instance.deleteAllImageFirebaseStorage(id, context);  
       _tasks.removeWhere((element) => element.id == id);
@@ -75,7 +82,7 @@ class TaskProvider extends ChangeNotifier {
       task.imageUrlList = await (AllTaskVM.instance.getUpdatedUrlListOfImage(task.id));
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/${task.id}')
+          .child('Users/${GlobalVariable.uid}/Tasks/${task.id}')
           .update(task.toJson());
       int index = _tasks.indexWhere((element) => element.id == task.id);
       _tasks[index] = task;
@@ -98,11 +105,16 @@ class TaskProvider extends ChangeNotifier {
   //   } catch (e) {}
   // }
 
-  Future<void> fetchTasks() async {
+  Future<void> fetchTasks({required bool? reinitialize }) async {
+    print("FETCHING TASK_________________________________%%%%%%%%%%%");
+    print("GLOB UID-----------${GlobalVariable.uid}");
+    if(reinitialize!){
+     init();
+    }
     if (_tasks.isEmpty) {
       final tasks = await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Tasks/')
+          .child('Users/${GlobalVariable.uid}/Tasks/')
           .once();
       print(tasks.value);
       if(tasks.value !=null){

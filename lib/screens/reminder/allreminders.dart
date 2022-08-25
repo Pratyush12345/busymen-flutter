@@ -41,7 +41,7 @@ class _AllRemindersState extends State<AllReminders>
       });
       Future.delayed(Duration.zero).whenComplete(() async {
         await Provider.of<Reminderprovider>(context, listen: false)
-            .fetchReminders()
+            .fetchReminders(reinitialize: true)
             .whenComplete(() => setState(() {
                   Provider.of<Reminderprovider>(context, listen: false)
                       .fetchDateVise(currentDay!);

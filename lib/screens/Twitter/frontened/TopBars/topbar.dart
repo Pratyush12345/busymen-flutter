@@ -88,12 +88,13 @@ class TwitterTopView extends StatelessWidget {
               backgroundColor: Colors.grey,
               child: ClipOval(
                 
-                child: Image.network(
-                  "https://www.ewc.edu/wp-content/uploads/person-icon-silhouette-png-0.png",
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.contain,
-                ),
+                // child: Image.network(
+                //   "https://www.ewc.edu/wp-content/uploads/person-icon-silhouette-png-0.png",
+                //   height: 100,
+                //   width: 100,
+                //   fit: BoxFit.contain,
+                // ),
+                child: Icon(Icons.person_outline, size: 80.0,),
               ),
             ),
             

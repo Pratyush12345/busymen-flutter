@@ -30,7 +30,7 @@ class _AddProfileTabState extends State<AddProfileTab> {
         UserDetailModel? model = Provider.of<UserProfileProvider>(context, listen: false).usermodel;
         _namecontroller.text = model!.name;
         _positioncontroller.text = model.positionName;
-        _phoneNumbercontroller.text = model.positionName;
+        _phoneNumbercontroller.text = model.phoneNumber;
         _officaladdresscontroller.text = model.officeAddress;
         _localAddresscontroller.text = model.localAddress;
       }
@@ -45,7 +45,7 @@ class _AddProfileTabState extends State<AddProfileTab> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          'Add Profile',
+          'Edit Profile',
           style: TextStyle(color: Color(0xff297687)),
         ),
         leading: IconButton(
@@ -59,131 +59,133 @@ class _AddProfileTabState extends State<AddProfileTab> {
         ),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: _app.appVerticalPadding(10.5),
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: _app.appVerticalPadding(10.5),
+            ),
 
-          Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 26.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                            controller: _namecontroller,
-                            keyboardType: TextInputType.name,
-                            validator: (str) {
-                              if (str == null || str.isEmpty) {
-                                return 'This field can not be empty';
-                              }
-                            },
-                            decoration:
-                                const InputDecoration(labelText: 'Name',labelStyle: sty ) ,
-                          ),
-                  SizedBox(
-                        height: _app.appVerticalPadding(3.0),
-                      ),
-                  TextFormField(
-                            controller: _positioncontroller,
-                            keyboardType: TextInputType.name,
-                            validator: (str) {
-                              if (str == null || str.isEmpty) {
-                                return 'This field can not be empty';
-                              }
-                            },
-                            decoration:
-                                const InputDecoration(labelText: 'Position Name', labelStyle: sty),
-                          ),
-                  SizedBox(
-                        height: _app.appVerticalPadding(3.0),
-                      ),
-                  TextFormField(
-                            controller: _phoneNumbercontroller,
-                            keyboardType: TextInputType.number,
-                            validator: (str) {
-                              if (str == null || str.isEmpty) {
-                                return 'This field can not be empty';
-                              }
-                            },
-                            decoration:
-                                const InputDecoration(labelText: 'Phone Number', labelStyle: sty),
-                          ),
-                  SizedBox(
-                        height: _app.appVerticalPadding(3.0),
-                      ),
-                  TextFormField(
-                            controller: _officaladdresscontroller,
-                            keyboardType: TextInputType.name,
-                            validator: (str) {
-                              if (str == null || str.isEmpty) {
-                                return 'This field can not be empty';
-                              }
-                            },
-                            decoration:
-                                const InputDecoration(labelText: 'Office Address', labelStyle: sty),
-                          ),
-                  SizedBox(
-                        height: _app.appVerticalPadding(3.0),
-                      ),
-                  TextFormField(
-                            controller: _localAddresscontroller,
-                            keyboardType: TextInputType.name,
-                            validator: (str) {
-                              if (str == null || str.isEmpty) {
-                                return 'This field can not be empty';
-                              }
-                            },
-                            decoration:
-                                const InputDecoration(labelText: 'Local Address', labelStyle: sty),
-                          ),
-                  SizedBox(
-                        height: _app.appVerticalPadding(3.0),
-                      ),    
-                  SizedBox(
-                        height: _app.appVerticalPadding(9.0),
-                      ),
-                  ],
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 26.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                              controller: _namecontroller,
+                              keyboardType: TextInputType.name,
+                              validator: (str) {
+                                if (str == null || str.isEmpty) {
+                                  return 'This field can not be empty';
+                                }
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Name',labelStyle: sty ) ,
+                            ),
+                    SizedBox(
+                          height: _app.appVerticalPadding(3.0),
+                        ),
+                    TextFormField(
+                              controller: _positioncontroller,
+                              keyboardType: TextInputType.name,
+                              validator: (str) {
+                                if (str == null || str.isEmpty) {
+                                  return 'This field can not be empty';
+                                }
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Position Name', labelStyle: sty),
+                            ),
+                    SizedBox(
+                          height: _app.appVerticalPadding(3.0),
+                        ),
+                    TextFormField(
+                              controller: _phoneNumbercontroller,
+                              keyboardType: TextInputType.number,
+                              validator: (str) {
+                                if (str == null || str.isEmpty) {
+                                  return 'This field can not be empty';
+                                }
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Phone Number', labelStyle: sty),
+                            ),
+                    SizedBox(
+                          height: _app.appVerticalPadding(3.0),
+                        ),
+                    TextFormField(
+                              controller: _officaladdresscontroller,
+                              keyboardType: TextInputType.name,
+                              validator: (str) {
+                                if (str == null || str.isEmpty) {
+                                  return 'This field can not be empty';
+                                }
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Office Address', labelStyle: sty),
+                            ),
+                    SizedBox(
+                          height: _app.appVerticalPadding(3.0),
+                        ),
+                    TextFormField(
+                              controller: _localAddresscontroller,
+                              keyboardType: TextInputType.name,
+                              validator: (str) {
+                                if (str == null || str.isEmpty) {
+                                  return 'This field can not be empty';
+                                }
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Local Address', labelStyle: sty),
+                            ),
+                    SizedBox(
+                          height: _app.appVerticalPadding(3.0),
+                        ),    
+                    SizedBox(
+                          height: _app.appVerticalPadding(9.0),
+                        ),
+                    ],
+                ),
               ),
             ),
-          ),
-          TextButton(        
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          UserDetailModel model = UserDetailModel(
-                            name: _namecontroller.text.trim(),
-                            positionName: _positioncontroller.text.trim(),
-                            phoneNumber: _phoneNumbercontroller.text.trim(),
-                            localAddress: _localAddresscontroller.text.trim(),
-                            officeAddress: _officaladdresscontroller.text.trim()
-                          );
-                          await ProfileTabVM.instance.addUpdateProfile(context, model);
-                          await ProfileTabVM.instance.fetchUserDetail(context);
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Container(
-                        width: _app.appWidth(90),
-                        height: 40,
-                        child: const Center(
-                          child: const Text("Save",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(colors: const [
-                              Color(0xff205072),
-                              Color(0xff2E8C92)
-                            ]),
-                            borderRadius: BorderRadius.circular(buttonRadius)),
-                      ))        
+            TextButton(        
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            UserDetailModel model = UserDetailModel(
+                              name: _namecontroller.text.trim(),
+                              positionName: _positioncontroller.text.trim(),
+                              phoneNumber: _phoneNumbercontroller.text.trim(),
+                              localAddress: _localAddresscontroller.text.trim(),
+                              officeAddress: _officaladdresscontroller.text.trim()
+                            );
+                            await ProfileTabVM.instance.addUpdateProfile(context, model);
+                            await ProfileTabVM.instance.fetchUserDetail(context);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: Container(
+                          width: _app.appWidth(90),
+                          height: 40,
+                          child: const Center(
+                            child: const Text("Save",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                          decoration: BoxDecoration(
+                              gradient: const LinearGradient(colors: const [
+                                Color(0xff205072),
+                                Color(0xff2E8C92)
+                              ]),
+                              borderRadius: BorderRadius.circular(buttonRadius)),
+                        ))        
+                      
                     
-                  
-        ],
+          ],
+        ),
       ),
     );
   }

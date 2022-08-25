@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Busyman/models/reminder.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,6 +23,18 @@ class Reminderprovider extends ChangeNotifier {
     4: [],
     5: [],
   };
+  
+  init(){
+   _reminders = [];
+   dateViseReminders = {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+   };
+  }
 
   fetchDateVise(DateTime date) {
     print("fetching date wiseeeeeeeeeeeeeeeee");
@@ -60,7 +73,7 @@ class Reminderprovider extends ChangeNotifier {
       print("length before ====${_reminders.length}");
       final ref = await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/');
+          .child('Users/${GlobalVariable.uid}/Reminders/');
       final ref2 = await ref.push().key;
       ref.child(ref2.toString()).update(reminder.toJson());
       reminder.id = ref2;
@@ -78,7 +91,7 @@ class Reminderprovider extends ChangeNotifier {
     try {
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/$id')
+          .child('Users/${GlobalVariable.uid}/Reminders/$id')
           .remove();
       _reminders.removeWhere((element) => element.id == id);
       NotificationService().deleteNotification(notificationId);
@@ -92,7 +105,7 @@ class Reminderprovider extends ChangeNotifier {
     try {
       await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/${reminder.id}')
+          .child('Users/${GlobalVariable.uid}/Reminders/${reminder.id}')
           .update(reminder.toJson());
       int index = _reminders.indexWhere((element) => element.id == reminder.id);
       _reminders[index] = reminder;
@@ -102,11 +115,14 @@ class Reminderprovider extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchReminders() async {
+  Future<void> fetchReminders({required bool? reinitialize }) async {
+    if(reinitialize!){
+      init();
+    }
     if (_reminders.isEmpty) {
       final tasks = await FirebaseDatabase.instance
           .reference()
-          .child('Users/${FirebaseAuth.instance.currentUser!.uid}/Reminders/')
+          .child('Users/${GlobalVariable.uid}/Reminders/')
           .once();
       print(tasks.value);
       if(tasks.value!=null){

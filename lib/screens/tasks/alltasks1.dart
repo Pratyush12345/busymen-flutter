@@ -23,22 +23,28 @@ class _AllTasksState extends State<AllTasks> {
   
   @override
     void initState() {
+      print("User uid------- ${GlobalVariable.uid}");
+      
       AllTaskVM.instance.initHomeScreen(context);
-     
       WidgetsBinding.instance!.addPostFrameCallback((_) {
          Provider.of<ChangeBottomTabProvider>(context, listen: false).changeBottomTabProvider(selectedIndexLocal: 0);
-        });
+        }); 
+      
+      
       super.initState();
     }
-
+  @override
+    void didChangeDependencies() {
+      super.didChangeDependencies();
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<ChangeBottomTabProvider>(
         builder: (context,model, child)=>
-        model.selectedIndex == 0? TaskTab() :
-        model.selectedIndex == 1? AllReminders():
-        model.selectedIndex == 2? WrapperTwitter():  ProfileTab()
+        model.selectedIndex == 0? TaskTab(key: Key(GlobalVariable.uid),) :
+        model.selectedIndex == 1? AllReminders(key: Key(GlobalVariable.uid),):
+        model.selectedIndex == 2? WrapperTwitter(key: Key(GlobalVariable.uid),):  ProfileTab()
         ),
 
       floatingActionButton:
@@ -71,12 +77,12 @@ class _AllTasksState extends State<AllTasks> {
                 gradient: RadialGradient(
                   radius: 0.3,
                   colors: [const Color(0xff329D9C), const Color(0xff205072)])),
-          child: const Icon(Icons.add)),
+          child: Provider.of<ChangeBottomTabProvider>(context).selectedIndex == 3? Icon(Icons.edit):Icon(Icons.add)),
         
         backgroundColor: const Color(0xff205072),
       ):null,
     
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: Consumer<ChangeBottomTabProvider>(
         builder: (context, model, child)=> BottomNavigationBar(
           onTap: (val) {
@@ -84,10 +90,10 @@ class _AllTasksState extends State<AllTasks> {
            
           },
 
-          currentIndex: _currentIndex,
-          showSelectedLabels: false,
+          currentIndex: model.selectedIndex,
+          //showSelectedLabels: true,
           iconSize: 22,
-           
+          
           //landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
           type: BottomNavigationBarType.fixed,
           items: [
@@ -99,37 +105,31 @@ class _AllTasksState extends State<AllTasks> {
                         padding: const EdgeInsets.all(4.0),
                         child: const CircularProgressIndicator()),
                   ), 
-
-                label: ''),
+                
+                label: 'Tasks'),
              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(right: 60.0),
-                  child: SvgPicture.asset(
-                    "assets/svg/reminder.svg",
-                    color: model.selectedIndex == 1 ? Color(0xff205072): Color(0xffB7B7B7),
-                    placeholderBuilder: (BuildContext context) => Container(
-                        padding: const EdgeInsets.all(4.0),
-                        child: const CircularProgressIndicator()),
-                  ), 
+                icon: SvgPicture.asset(
+                  "assets/svg/reminder.svg",
+                  color: model.selectedIndex == 1 ? Color(0xff205072): Color(0xffB7B7B7),
+                  placeholderBuilder: (BuildContext context) => Container(
+                      padding: const EdgeInsets.all(4.0),
+                      child: const CircularProgressIndicator()),
                 ),
-                label: ''),
+                label: 'Reminders'),
             BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.only(left : 60.0),
-                  child: Hero(
-                    tag: "Twitter",
-                    //child: Image.asset('assets/icons/twitter.svg', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
-                    child: SvgPicture.asset(
-                    "assets/icons/twitter.svg",
-                    height: 20.0,
-                    color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),
-                    placeholderBuilder: (BuildContext context) => Container(
-                        padding: const EdgeInsets.all(4.0),
-                        child: const CircularProgressIndicator()),
-                    ),
+                icon: Hero(
+                  tag: "Twitter",
+                  //child: Image.asset('assets/icons/twitter.svg', color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),)),
+                  child: SvgPicture.asset(
+                  "assets/icons/twitter.svg",
+                  height: 20.0,
+                  color: model.selectedIndex == 2 ? Color(0xff205072): Color(0xffB7B7B7),
+                  placeholderBuilder: (BuildContext context) => Container(
+                      padding: const EdgeInsets.all(4.0),
+                      child: const CircularProgressIndicator()),
                   ),
-                  ),
-                   label: ''),
+                ),
+                   label: 'Twitter'),
              BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                     "assets/svg/your-profile.svg",
@@ -138,7 +138,7 @@ class _AllTasksState extends State<AllTasks> {
                         padding: const EdgeInsets.all(4.0),
                         child: const CircularProgressIndicator()),
                   ), 
-                label: ''),
+                label: 'My Account'),
           ],
         ),
       ),

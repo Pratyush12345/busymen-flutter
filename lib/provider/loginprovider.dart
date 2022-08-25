@@ -21,6 +21,7 @@ class Auth {
     return _firebaseAuth.authStateChanges().map((user) =>user==null?FBUser(uid: ""): FBUser(uid: user.uid));
   }
 
+
     Future<void> signOut() async {
     try {
       SharedPreferences _ref = await SharedPreferences.getInstance();

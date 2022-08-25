@@ -1,10 +1,8 @@
-import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/view_models/dashboard_vm.dart';
 import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar_dashbaord.dart';
 import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/all_people.dart';
 import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/follower_list_tab.dart';
 import 'package:Busyman/screens/Twitter/frontened/tabs_twitter/following_list_tab.dart';
-import 'package:Busyman/screens/Twitter/frontened/TopBars/topbar.dart';
 import 'package:Busyman/services/sizeconfig.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +54,7 @@ class _Dashboard_TabbarState extends State<Dashboard_Tabbar> {
                         ),
                       ),),
             Tab(child: Text(
-                        'All People',
+                        'Selected',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
@@ -73,27 +71,27 @@ class _Dashboard_TabbarState extends State<Dashboard_Tabbar> {
              FollowingListTab(),
              AllSelectedPeopleTab()
            ]),),
-        SizedBox(height: 15.0,),      
-        InkWell(
-                 onTap: (){
-                   DashboardVM.instance.saveRetweetId();
-                 },
-                 child: Center(
-                   child: Hero(
-                     tag: "Twitter",
-                     child: Container(
-                       alignment: Alignment.center,
-                       height: 40.0,
-                       width: 150.0,
-                       decoration: BoxDecoration(
-                         color: Color(0xff205072),
-                         borderRadius: BorderRadius.circular(12.0)
-                       ),
-                       child: Text("Save",
-                       style: TextStyle(color: Colors.white),)),
-                   ),
-                 )),   
-        SizedBox(height: 10.0,),          
+        // SizedBox(height: 15.0,),      
+        // InkWell(
+        //          onTap: (){
+        //            //DashboardVM.instance.saveRetweetId();
+        //          },
+        //          child: Center(
+        //            child: Hero(
+        //              tag: "Twitter",
+        //              child: Container(
+        //                alignment: Alignment.center,
+        //                height: 40.0,
+        //                width: 150.0,
+        //                decoration: BoxDecoration(
+        //                  color: Color(0xff205072),
+        //                  borderRadius: BorderRadius.circular(12.0)
+        //                ),
+        //                child: Text("Save",
+        //                style: TextStyle(color: Colors.white),)),
+        //            ),
+        //          )),   
+        // SizedBox(height: 10.0,),          
        ],),
       ),);
   }

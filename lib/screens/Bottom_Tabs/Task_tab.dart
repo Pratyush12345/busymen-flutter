@@ -21,15 +21,25 @@ class _TaskTabState extends State<TaskTab> {
   bool isLoading = false;
   
   @override
+    void initState() {
+      
+      super.initState();
+    }
+  
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
+    print("INITIAL_______------------------$initial");
+    print("IS LOADING_______------------------$isLoading");
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
     if (initial) {
       setState(() {
         isLoading = true;
       });
       Future.delayed(Duration.zero).whenComplete(() async =>
           await Provider.of<TaskProvider>(context, listen: false)
-              .fetchTasks()
+              .fetchTasks(reinitialize: true )
               .whenComplete(() => setState(() {
                     isLoading = false;
                   })));
@@ -43,9 +53,9 @@ class _TaskTabState extends State<TaskTab> {
     final taskProvider = Provider.of<TaskProvider>(context);
     _app = App(context);
     
-    return Column(
+    return Column( 
         children: [
-          TopView(headername: "Work Log",),
+          TopView(headername: "Tasks",),
           SizedBox(
             height: _app.appVerticalPadding(5.5),
           ),
@@ -61,9 +71,12 @@ class _TaskTabState extends State<TaskTab> {
             height: _app.appVerticalPadding(0.0),
           ),
           isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? Container(
+                height: 400,
+                child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              )
               : Expanded(
                   child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -6,10 +6,11 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 class ConnectivityWrapper extends StatelessWidget{
+  ConnectivityWrapper({ Key? key, }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
       return StreamBuilder(
+        key: UniqueKey(),
         stream: Connectivity().onConnectivityChanged ,
         builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.active){
@@ -18,9 +19,9 @@ class ConnectivityWrapper extends StatelessWidget{
                print("ccccccccccccccccccc");
               if(snapshot.data.toString()  != ConnectivityResult.none.toString())
               {
-                return Wrapper();
+                return   Wrapper();
               }
-              
+               
               else{
               if(Navigator.canPop(context)){
           
@@ -29,7 +30,6 @@ class ConnectivityWrapper extends StatelessWidget{
               return  NoInternetScreen();       
               }
               }
-        
         return Wait();
      
         }, 

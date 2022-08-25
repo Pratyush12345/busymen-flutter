@@ -16,6 +16,9 @@ class LoginVM {
       print("vvvvvvvvvvvvvvvv");
       print("Verify Success");
       print("vvvvvvvvvvvvvvvv");
+      await Auth.instance.signInWithCred(
+        cred,
+      );
     };
 
     final PhoneVerificationFailed verifyFailure = (Exception error) {
@@ -41,7 +44,7 @@ class LoginVM {
     };
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNoWithCountryCode,
-        timeout: Duration(seconds: 120),
+        timeout: Duration(seconds: 60),
         verificationCompleted: verfiySuccess,
         verificationFailed: verifyFailure,
         codeSent: smsCodeSent,

@@ -46,7 +46,7 @@ class _AllSelectedPeopleTabState extends State<AllSelectedPeopleTab> {
                 builder: (ctx) {
                   return AlertDialog(
                     title: const Text(
-                      'Are You sure, You want to delete this user?',
+                      'Are You sure, You want to remove this user?',
                       style: TextStyle(
                           color: Color(0xff2E2E2E),
                           fontSize: 16,
@@ -187,11 +187,15 @@ class _AllSelectedPeopleTabState extends State<AllSelectedPeopleTab> {
                                       if(val){
                                          if(!DashboardVM.instance.listOfRetweetId!.contains( _twitterUserModel.user.idStr!))
                                         DashboardVM.instance.listOfRetweetId = DashboardVM.instance.listOfRetweetId! + "," + "${_twitterUserModel.user.idStr}";
-                                      }
+                                        
+                                        }
                                       else{
                                         DashboardVM.instance.listOfRetweetId = DashboardVM.instance.listOfRetweetId!.replaceAll(",${_twitterUserModel.user.idStr}","");
+                                        
                                       }
                                       setState(() {});
+                                      DashboardVM.instance.saveRetweetId(msg: "Saved Successfuly");
+                                      
                                     },
                                   ),
                                 ),

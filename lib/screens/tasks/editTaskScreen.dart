@@ -208,7 +208,7 @@ class _EditTaskState extends State<EditTask> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          'Create New Task',
+          'Edit Task',
           style: TextStyle(color: Color(0xff297687)),
         ),
         leading: IconButton(

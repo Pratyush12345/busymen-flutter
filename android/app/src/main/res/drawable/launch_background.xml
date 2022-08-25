@@ -6,6 +6,8 @@
     <!-- You can insert your own image assets here -->
     <item>
         <bitmap
+            android:width = "150px"
+            android:height = "180px"
             android:gravity="center"
             android:src="@mipmap/launcher_icon" />
     </item>

@@ -1,6 +1,6 @@
 import 'package:Busyman/screens/Twitter/backend/utils/appconstant.dart';
 import 'package:Busyman/services/sizeconfig.dart';
-import 'package:Busyman/views/login_viewmodel.dart';
+import 'package:Busyman/view_models/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -84,6 +84,8 @@ class _OtpScreenState extends State<OtpScreen> {
                       submittedFieldDecoration: pinPutDecoration,
                       selectedFieldDecoration: pinPutDecoration,
                       followingFieldDecoration: pinPutDecoration,
+                      checkClipboard: true,
+                      enabled: true,
                     ),
                   ),
                   SizedBox(

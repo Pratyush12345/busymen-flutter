@@ -85,6 +85,7 @@ void _scrollListener() {
                                     DashboardVM.instance.listOfRetweetId = DashboardVM.instance.listOfRetweetId!.replaceAll(",${_twitterUserModel.user.idStr}","");
                                   }
                                   setState(() {});
+                                  DashboardVM.instance.saveRetweetId(msg: "Saved Successfuly");
                                 },
                               ),
                             ),

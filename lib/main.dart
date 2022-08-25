@@ -4,6 +4,7 @@ import 'package:Busyman/provider/taskprovider.dart';
 import 'package:Busyman/screens/No_internet/connectivity_wrapper.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/change_bottom_tab_provider.dart';
 import 'package:Busyman/screens/Twitter/backend/providers/dashboard_provider.dart';
+import 'package:Busyman/screens/Twitter/backend/utils/global_variable.dart';
 import 'package:Busyman/services/notification_service.dart';
 import 'package:Busyman/services/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<FBUser>.value(
      value: Auth.instance.appuser,
-     initialData: FBUser(uid: ""),
-     
+     initialData: FBUser(uid: "123"),
      child: MultiProvider(
        providers: [
          ChangeNotifierProvider(create: (ctx) => TaskProvider()),
-          ChangeNotifierProvider(create: (ctx) => ChangeAddTaskImageProvider()),
+         ChangeNotifierProvider(create: (ctx) => ChangeAddTaskImageProvider()),
          ChangeNotifierProvider(create: (ctx) => Reminderprovider()),
          ChangeNotifierProvider(create: (ctx) => FollowingDashboardProvider()),
          ChangeNotifierProvider(create: (ctx) => FollowerDashboardProvider()),
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
                }
              ),
            ),
-           home: ConnectivityWrapper(),
+           home:  ConnectivityWrapper(),
            initialRoute: '/',
            onGenerateRoute: RouteGenerator.generateRoute,
          ),

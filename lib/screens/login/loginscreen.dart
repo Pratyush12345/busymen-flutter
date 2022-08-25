@@ -1,5 +1,6 @@
+import 'package:Busyman/services/random_string.dart';
 import 'package:Busyman/services/sizeconfig.dart';
-import 'package:Busyman/views/login_viewmodel.dart';
+import 'package:Busyman/view_models/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -83,7 +84,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       onPressed: () {
                         if (_mobileController.text.length == 10) {
                           LoginVM.instance.verifyPhone(
-                              context, '+91' + _mobileController.text, 0);
+                              context, '+91' + _mobileController.text, int.parse(randomNumeric(4)));
                           Navigator.of(context).pushNamed('/otp', arguments: _mobileController.text );
                         } else {
                           setState(() {
